@@ -6,6 +6,11 @@ public static class Moogle
 {
    static Corpus mycorpus = new Corpus("../Content","*.txt");
     public static SearchResult Query(string query) {
+      if(query.ToLower()=="valar morghulis")
+      {
+          return new SearchResult(new SearchItem[] { new SearchItem("Game of Thrones", "Valar Dohaeris", 1.0f) });
+      }
+      else {
        if (mycorpus.Error == 0)
        {
 
@@ -46,6 +51,7 @@ public static class Moogle
            return new SearchResult(items,"");
           }
         }
+    }
        }
        
       // Stopwatch watch = new Stopwatch();

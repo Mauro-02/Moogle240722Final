@@ -475,6 +475,7 @@ private int Cercania(int docindex)
 
 
 
+
     public Document[] Docs           
     {
         get
