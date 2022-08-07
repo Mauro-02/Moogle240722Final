@@ -24,6 +24,8 @@ public class Corpus
 
     private string suggestions;
 
+
+
     private Dictionary<string, int> vocabulary = new Dictionary<string, int>();  //Diccionario con tdas las palabras del campus (Key), el valor es la cantidad de documentos en los que se encuentra la palabra.
                                                                           
     
@@ -33,7 +35,7 @@ public class Corpus
 ///Despues de verificar que el camino es válido y que existen ficheros en ese camino, crea el objeto docs (arreglo de clase Document). 
 ///Si el camino no existe o no existen ficheros en ese camino, inicializa la variable error en y o 2.
 ///</summary>
-    public Corpus(string path,string fileext, string inputquery)
+    public Corpus(string path,string fileext)//, string inputquery)
     {
       
         if (Directory.Exists(path))                        // Verifica si el directorio existe
@@ -43,16 +45,22 @@ public class Corpus
          else
          {
           docs = new Document[files.Length];        // Arreglo de Clase Documento. Cada elemento tiene atributos y funcionsalidsdes para cada documento.
-          this.inputquery = inputquery;
+         // this.inputquery = inputquery;
          }
         }
        else error=1;                           // Directorio no existe
-      
+      ProcessDocs();
+      FillTFIDFMatrix();
     }
 
 ///<summary> 
 ///Metodo Publico, que procesa cada Documento del Corpus, extrayendo sus Atributos.
 ///</summary>
+public void Search(string query)
+{
+    this.inputquery=query;
+    ProcessQuery(true);
+}
     public void ProcessDocs()
     {
       for (int i = 0; i < files.Length; i++)
@@ -464,6 +472,7 @@ private int Cercania(int docindex)
         
         return 1 - distNorm;
     }
+
 
 
     public Document[] Docs           

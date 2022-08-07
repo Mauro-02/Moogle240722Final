@@ -337,7 +337,7 @@ public int Wordquerycount
   }
 
 public Dictionary<string, List<string>> Cercanas          
-  {
+  {     
     get
       {
           return cercanas;
