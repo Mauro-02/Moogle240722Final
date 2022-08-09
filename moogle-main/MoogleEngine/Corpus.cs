@@ -1,3 +1,4 @@
+using System.Text;
 namespace MoogleEngine;
 
 ///<summary> 
@@ -377,6 +378,15 @@ string result2 = Source.Length >= 500 ? Source.Substring(0, 500) : Source;
            
         }
 
+// private string Highlight(string text, List<string> words)
+// {
+//     StringBuilder result=new StringBuilder(text);
+//     foreach (string word in words)
+//     {
+//         result.Replace(word, "<b>" + word + "</b>");
+//     }
+//     return result.ToString();
+// }
 private string Snippet(string text, List<string> words)
 {
     int count=words.Count;
@@ -441,6 +451,8 @@ private string Snippet(string text, List<string> words)
 ///Para el calculo se usan los valores de la matrix-tfidf y el queryvector-tfidf.
 ///http://ccdoc-tecnicasrecuperacioninformacion.blogspot.com
 ///</summary>
+
+
     public float GetScore(int docnumber)         
     {
 
