@@ -4,11 +4,13 @@
 
 <h1>🔍 Moogle!</h1>
 
-<input class="p-1 my-4" @bind="query" placeholder="Introduzca su búsqueda">
+@*<input class="p-1 my-4" @bind="query" placeholder="Introduzca su búsqueda">*@
+<input type="text" name="text" class="input" @bind="query" placeholder="Introduzca su búsqueda">
 
 <button type="default" class="btn btn-primary" @onclick="RunQuery">🔍 Buscar</button>
 
 @if (!string.IsNullOrEmpty(result.Suggestion)) {
+  
     <div class="suggestion">
         <p>¿Ud. quiso decir  <strong><a href="#">@result.Suggestion</a></strong>?</p>
     </div>
@@ -31,6 +33,7 @@
 </ul>
 
 @code {
+    
     private string query = "";
     private SearchResult result = new SearchResult();
 
