@@ -23,6 +23,8 @@ public class Document
     private string filepath;
     private string filesnippet;   
 
+    private string text;
+
     private float score= 0f;
 
     private int wordcount;  // Cantidad de palabras en el Documento
@@ -51,9 +53,9 @@ public class Document
         {
             throw new Exception(ex.Message);       
         }
-         
+        this.text= linestext;
         filename = pathfilename.Substring(pathfilename.LastIndexOf("/")+1) + " (" +dt.ToString("dd/MM/yy")+")";     //extrae substring a partir del ultimo / +1      
-        filesnippet = linestext.Length >= lengthsnipe ? linestext.Substring(0, 100) : linestext;                   //si el texto tiene mas de 100 terminos devuelve solo esta cantidad sino me devuelve los que tengan
+        filesnippet = " ";//linestext.Length >= lengthsnipe ? linestext.Substring(0, 100) : linestext;                   //si el texto tiene mas de 100 terminos devuelve solo esta cantidad sino me devuelve los que tengan
         filepath = pathfilename;
 
         wordcount = FillDictionarys(docsdictionary,linestext, v);  // llena Diccionario de Documentos y Vocabulario
@@ -142,8 +144,19 @@ public class Document
         {
             return filesnippet ;
         }
+        set
+        {
+            filesnippet = value;
+        }
     }
 
+public string Text
+    {
+      get
+        {
+            return text ;
+        }
+    }
     public float Score
     {
       get

@@ -31,7 +31,8 @@ private enum token {Importancia,Cercania,Obligacion, Omitir, ImpObli, Palabra, N
  private Dictionary<string, List<string>> cercanas = new Dictionary<string,List<string>>();  
 
  private int error = 0;
-
+ 
+private List<string> palabras;
  private int pos = 0;
 
  private int wordquerycount = 0;      // cantidad de palabras en la Query
@@ -65,7 +66,8 @@ public Query(string query)
                 .Replace('ó', 'o')
                 .Replace('ú', 'u');
    qaux = qaux.Trim(' ');
-  
+  palabras = qaux.Replace('!', ' ').Replace('*', ' ').Replace('~', ' ').Replace('^', ' ').Trim(' ')
+  .Split(" ",StringSplitOptions.RemoveEmptyEntries).ToList();
    while (pos < qaux.Length)             // Recorre la Query, Pidiendo y analizando los Tokens
    {
       currenttoken = NextToken (qaux, out currentword);
@@ -344,4 +346,11 @@ public Dictionary<string, List<string>> Cercanas
       }
   }
 
+public List<string> Palabras          
+  {     
+    get
+      {
+          return palabras;
+      }
+  }
 }

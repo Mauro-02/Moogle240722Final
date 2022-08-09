@@ -163,6 +163,7 @@ public void Search(string query)
         {
             tfidfqueryvector[i++] = query.GetTFQuery(aux) * (float)Math.Log10((float)docs.Length / (float)vocabulary[aux]);
         }
+    
     }
 
 ///<summary> 
@@ -316,7 +317,7 @@ private int Cercania(int docindex)
                 if (query.Cercanas.Count != 0) score = score / (float)Cercania(i);  // en la Query existe el Operador ~, e influira en el Score del Documento
                 
                 docs[i].Score = score;
-
+                Docs[i].Filesnippet=Snippet(Docs[i].Text, query.Palabras);
                 sitem.Add(new SearchItem(Docs[i].Filename, Docs[i].Filesnippet, docs[i].Score));
             }
 
@@ -324,7 +325,116 @@ private int Cercania(int docindex)
         
         return sitem;
     }
+    private string stringBetween(string Source, string Start, string End)
+        {
 
+            string result = "";
+            if(Start==End&& End==" ")
+{
+    result=Source.Length >= 500 ? Source.Substring(0, 500) : Source;
+    return result;
+}
+            // if (End=="")
+            // {
+            //     int StartIndex = Source.IndexOf(Start, 0) + Start.Length;
+            //     result=Start + Source.Substring(StartIndex);
+            //     if(result.Length>=500)
+            //     {
+            //         result=result.Substring(0,500);
+            //     }
+            //     return result;
+            // }
+            // else
+            // {
+            if (Source.Contains(Start) && Source.Contains(End))
+            {
+                
+                result=Start;
+                int StartIndex = Source.IndexOf(Start, 0) + Start.Length;
+                int EndIndex = Source.IndexOf(End, StartIndex);
+                if(EndIndex==-1)
+                {
+                    result+=Source.Substring(StartIndex);
+                    if(result.Length>=500)
+                {
+                    result = result.Substring(0, 500);
+                }
+                return result+End;
+                }
+                else
+               {
+                result += Source.Substring(StartIndex, EndIndex - StartIndex);
+                if(result.Length>=500)
+                {
+                    result = result.Substring(0, 500);
+                }
+                return result+End;
+               }
+            }
+string result2 = Source.Length >= 500 ? Source.Substring(0, 500) : Source;
+            return result2 ;
+            //}
+           
+        }
+
+private string Snippet(string text, List<string> words)
+{
+    int count=words.Count;
+    if(count!=1)
+    {
+        string star=" ";
+        string end=" ";
+        for (int i = 0; i < count; i++)
+        {
+           if(text.Contains(words[i]))
+           {
+               star=words[i];
+               break;
+           }
+        }
+        for(int i=count-1;i>=0;i--)
+        {
+            if(text.Contains(words[i]))
+            {
+                end=words[i];
+                break;
+            }
+        }
+//         if(star==end)
+//         {
+            
+//             string sippet=stringBetween(text,star,"");
+//     return sippet;
+//         }
+// else {
+    string snippet=stringBetween(text,star,end);
+    return snippet;
+    }
+    // }
+
+    else
+    {
+        string result="";
+        result=words[0];
+        int StartIndex = text.IndexOf(words[0], 0) + words[0].Length;
+        result+=text.Substring(StartIndex);
+                    if(result.Length>=500)
+                {
+                    result = result.Substring(0, 500);
+                }
+      //  string filetext=text.Length >= 500 ? text.Substring(0, 500) : text;
+        return result;
+    }
+//     List<List<int>> pos = new List<List<int>>();
+// for (int i = 0; i < words.Count; i++)
+// {
+//     pos.Add(new List<int>(docs[i].Docsdictionary[words[i]] ));
+// }
+// int min=pos.Max(x=>x.Min());
+// int max=pos.Max(x=>x.Max());
+// string snippet = text.Substring(min, max);
+// return snippet;
+}
 ///<summary> 
 ///Calcula el Score, del documento pasado como Parametro.
 ///Para ellos se basa en el Calculo del Coeficiente Similaridad del Coseno. 
@@ -469,9 +579,9 @@ private int Cercania(int docindex)
         }
 
         float distNorm = m > n ? ((float)d[m, n]/(float)m) : ((float)d[m, n]/(float)n);  // Normaliza la Distancia
-        
         return 1 - distNorm;
     }
+
 
 
 
