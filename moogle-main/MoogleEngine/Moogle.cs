@@ -18,6 +18,7 @@ public static class Moogle
           if (mycorpus.Error != 0)  // Error en la Query
          {
            SearchItem[] items = new SearchItem[1] {new SearchItem("Ninguna Coincidencia","",0)};
+           mycorpus.Error=0;
            return new SearchResult(items,"");
          }
          var sortlist = mycorpus.ProcessScore().OrderByDescending(x => x.Score);

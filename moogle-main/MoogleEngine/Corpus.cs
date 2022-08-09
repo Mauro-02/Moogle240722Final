@@ -612,5 +612,10 @@ private string Snippet(string text, List<string> words)
         {
             return error;
         }
+
+        set
+        {
+            error = value;
+        }
     }
 }
