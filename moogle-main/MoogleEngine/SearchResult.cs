@@ -4,9 +4,10 @@ public class SearchResult
 {
     private SearchItem[] items;
 
-    public SearchResult(SearchItem[] items, string suggestion="")
+    public SearchResult(SearchItem[] items, string suggestion = "")
     {
-        if (items == null) {
+        if (items == null)
+        {
             throw new ArgumentNullException("items");
         }
 
@@ -14,15 +15,17 @@ public class SearchResult
         this.Suggestion = suggestion;
     }
 
-    public SearchResult() : this(new SearchItem[0]) {
-
-    }
+    public SearchResult() : this(new SearchItem[0]) { }
 
     public string Suggestion { get; private set; }
 
-    public IEnumerable<SearchItem> Items() {
+    public IEnumerable<SearchItem> Items()
+    {
         return this.items;
     }
 
-    public int Count { get { return this.items.Length; } }
+    public int Count
+    {
+        get { return this.items.Length; }
+    }
 }

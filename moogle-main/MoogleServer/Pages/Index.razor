@@ -9,35 +9,38 @@
 
 <button type="default" class="btn btn-primary" @onclick="RunQuery">🔍 Buscar</button>
 
-@if (!string.IsNullOrEmpty(result.Suggestion)) {
-  
+@if (!string.IsNullOrEmpty(result.Suggestion))
+{
+
     <div class="suggestion">
-        <p>¿Ud. quiso decir  <strong><a href="#">@result.Suggestion</a></strong>?</p>
-    </div>
+    <p>¿Ud. quiso decir <strong><a href="#">@result.Suggestion</a></strong>?</p>
+</div>
 }
 @*else
-@if (string.IsNullOrEmpty(result.Suggestion) && !string.IsNullOrEmpty(query)) {
+    @if (string.IsNullOrEmpty(result.Suggestion) && !string.IsNullOrEmpty(query)) {
     <div class="suggestion">
-        <p>Se muestran los Resultados de:   <strong><a href="#">@query</a></strong></p>
+    <p>Se muestran los Resultados de: <strong><a href="#">@query</a></strong></p>
     </div>
-}*@
+    }*@
 <ul class="results">
-@foreach (var item in result.Items()) {
-    <li>
-        <div class="item">
-            <p class="title">@item.Title</p>
-            <p>... @item.Snippet ...</p>
-        </div>
-    </li>
-}
+    @foreach (var item in result.Items())
+    {
+        <li>
+            <div class="item">
+                <p class="title">@item.Title</p>
+                <p>... @item.Snippet ...</p>
+            </div>
+        </li>
+    }
 </ul>
 
 @code {
-    
+
     private string query = "";
     private SearchResult result = new SearchResult();
 
-    private void RunQuery() {
+    private void RunQuery()
+    {
         result = Moogle.Query(query);
     }
 }
