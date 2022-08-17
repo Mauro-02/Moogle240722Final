@@ -4,6 +4,7 @@ namespace MoogleEngine;
 
 public static class Moogle
 {
+    
     static Corpus mycorpus = new Corpus("../Content", "*.txt");
 
     public static SearchResult Query(string query)
