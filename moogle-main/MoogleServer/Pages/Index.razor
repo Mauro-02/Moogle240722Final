@@ -13,7 +13,7 @@
 {
 
     <div class="suggestion">
-    <p>¿Ud. quiso decir <strong><a href="#">@result.Suggestion</a></strong>?</p>
+    <p>¿Ud. quiso decir <strong><a href="#" @onclick="SearchSuggestion">@result.Suggestion</a></strong>?</p>
 </div>
 }
 @*else
@@ -42,5 +42,9 @@
     private void RunQuery()
     {
         result = Moogle.Query(query);
+    }
+    private void SearchSuggestion() {
+        query = @result.Suggestion;
+        RunQuery();
     }
 }
