@@ -5,7 +5,7 @@ namespace MoogleEngine;
 public static class Moogle
 {
     
-   // static Corpus mycorpus = new Corpus("../Content", "*.txt");
+    static Corpus mycorpus = new Corpus("../Content", "*.txt");
 
     public static SearchResult Query(string query)
     {
@@ -17,10 +17,9 @@ public static class Moogle
         }
         else
         {
-              Corpus mycorpus= new Corpus(query);
             if (mycorpus.Error == 0)
             {
-                
+                mycorpus.Search(query);
                 if (mycorpus.Error != 0) // Error en la Query
                 {
                     SearchItem[] items = new SearchItem[1]
@@ -30,7 +29,7 @@ public static class Moogle
                     mycorpus.Error = 0;
                     return new SearchResult(items, "");
                 }
-                var sortlist = mycorpus.ProcessScore().OrderByDescending(x => x.Score);
+                var sortlist = mycorpus.ProcessScore().OrderByDescending(x => x.Score);//.Take(10);
                 if (sortlist.Count() == 0) // No se encontraron resultados de la query original, se intenta buscar resultados de Sugerencias
                 {
                     string saux = mycorpus.FindSuggestion();
