@@ -1,6 +1,8 @@
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Web;
 
+//MoogleEngine.Corpus mycorpus = new MoogleEngine.Corpus("../Content", "*.txt");
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.

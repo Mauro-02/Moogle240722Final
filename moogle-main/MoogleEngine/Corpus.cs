@@ -37,13 +37,15 @@ public class Corpus
     ///</summary>
     public Corpus(string path, string fileext) //, string inputquery)
     {
-        Stopwatch corpus = new Stopwatch();
-        corpus.Start();
         if (Directory.Exists(path)) // Verifica si el directorio existe
         {
             files = Directory.GetFiles(path, fileext);
             if (files.Length == 0)
+            {
                 error = 2; // Directorio vacio
+                System.Console.WriteLine("Directorio vacio ❌");
+                return;
+            }
             else
             {
                 docs = new Document[files.Length]; // Arreglo de Clase Documento. Cada elemento tiene atributos y funcionsalidsdes para cada documento.
@@ -51,7 +53,11 @@ public class Corpus
             }
         }
         else
+        {
             error = 1; // Directorio no existe
+            System.Console.WriteLine("Directorio no existe ❌");
+            return;
+        }
 
         ProcessDocs();
         System.Console.WriteLine("Documentos listos ✅");
@@ -59,16 +65,21 @@ public class Corpus
         System.Console.WriteLine("Matriz TFIDF lista ✅");
         System.Console.WriteLine("Corpus listo ✅");
     }
-
+public Corpus(string query)
+{
+this.inputquery = query;
+        ProcessQuery(true);
+        System.Console.WriteLine("Query procesada ✅");
+}
     ///<summary>
     ///Metodo Publico, que procesa cada Documento del Corpus, extrayendo sus Atributos.
     ///</summary>
-    public void Search(string query)
-    {
-        this.inputquery = query;
-        ProcessQuery(true);
-        System.Console.WriteLine("Query procesada ✅");
-    }
+    // public void Search(string query)
+    // {
+    //     this.inputquery = query;
+    //     ProcessQuery(true);
+    //     System.Console.WriteLine("Query procesada ✅");
+    // }
 
     public void ProcessDocs()
     {

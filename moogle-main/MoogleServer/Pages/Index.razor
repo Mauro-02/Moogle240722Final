@@ -5,9 +5,10 @@
 <h1>🔍 Moogle!</h1>
 
 @*<input class="p-1 my-4" @bind="query" placeholder="Introduzca su búsqueda">*@
-<input type="text" name="text" class="input" @bind="query" placeholder="Introduzca su búsqueda">
-
+<form @onsubmit="RunQuery">
+<input type="text" name="text" class="input" @bind="query"  placeholder="Introduzca su búsqueda">
 <button type="default" class="btn btn-primary" @onclick="RunQuery">🔍 Buscar</button>
+</form>
 
 @if (!string.IsNullOrEmpty(result.Suggestion))
 {
@@ -27,7 +28,7 @@
     {
         <li>
             <div class="item">
-                <p class="title">@item.Title</p>
+                <p class="title"><a href="#" @onclick="@(e => OpenDocument(item.Title))">@item.Title</a></p>
                 <p>... @item.Snippet ...</p>
             </div>
         </li>
@@ -46,5 +47,20 @@
     private void SearchSuggestion() {
         query = @result.Suggestion;
         RunQuery();
+    }
+
+    private void OpenDocument(string fileTitle)
+    {
+     try
+        {
+            DirectoryInfo? baseDir = Directory.GetParent(Directory.GetCurrentDirectory());
+            string contentFolder = Path.Join(baseDir?.FullName, "Content");
+            string fullFileName = Path.Join(contentFolder, fileTitle);
+            var process = System.Diagnostics.Process.Start(fullFileName);
+        }
+        catch
+        {
+            System.Console.WriteLine("Couldn't open file...");
+        } 
     }
 }

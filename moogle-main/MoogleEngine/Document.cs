@@ -1,3 +1,4 @@
+using System.Text.RegularExpressions;
 namespace MoogleEngine;
 
 ///<summary>
@@ -80,26 +81,14 @@ public class Document
         Dictionary<string, int> v
     ) //textread: Contenido leido desde los Ficheros
     {
-        this.text = " "+textread
-            .Replace('\n', ' ') // En words, las palabras separadas por espacio. Las palabras quedan sin acentos.
-            .Replace('_', ' ') // DSignos de puntuacion son sustituidos por espacio.
-            .Replace(',', ' ')
-            .Replace('.', ' ')
-            .Replace(';', ' ')
-            .Replace('-', ' ')
-            .Replace('/', ' ')
-            .Replace(':', ' ')
-            .Replace('\r', ' ')
-            .Replace('\t', ' ')
-            .Replace('\\', ' ')
+        this.text = " "+ Regex.Replace(textread,"[^a-zA-Z0-9_áéíóúñ]", " ") //reemplaza todo lo que no sea letra o numero por un espacio
             .Replace('á', 'a')
             .Replace('é', 'e')
             .Replace('í', 'i')
             .Replace('ó', 'o')
             .Replace('ú', 'u')+" ";
-            var words=text.Trim().Split(" ", StringSplitOptions.RemoveEmptyEntries);
-            //.Trim()
-            //.Split(" ", StringSplitOptions.RemoveEmptyEntries);
+            var words=text.Trim().Split(" ", StringSplitOptions.RemoveEmptyEntries); // En words, las palabras separadas por espacio. Las palabras quedan sin acentos
+        
 
         for (int i = 0; i < words.Length; i++) // Ciclo para Obtener cada palabra
         {

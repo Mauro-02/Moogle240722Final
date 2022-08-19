@@ -5,7 +5,7 @@ namespace MoogleEngine;
 public static class Moogle
 {
     
-    static Corpus mycorpus = new Corpus("../Content", "*.txt");
+   // static Corpus mycorpus = new Corpus("../Content", "*.txt");
 
     public static SearchResult Query(string query)
     {
@@ -17,9 +17,10 @@ public static class Moogle
         }
         else
         {
+              Corpus mycorpus= new Corpus(query);
             if (mycorpus.Error == 0)
             {
-                mycorpus.Search(query);
+                
                 if (mycorpus.Error != 0) // Error en la Query
                 {
                     SearchItem[] items = new SearchItem[1]
