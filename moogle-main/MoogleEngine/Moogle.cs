@@ -9,6 +9,7 @@ public static class Moogle
 
     public static SearchResult Query(string query)
     {
+        int TDocument=15;
         if (query.ToLower() == "valar morghulis")
         {
             return new SearchResult(
@@ -19,7 +20,7 @@ public static class Moogle
         {
             if (mycorpus.Error == 0)
             {
-                mycorpus.Search(query);
+                mycorpus.Search(query,true);
                 if (mycorpus.Error != 0) // Error en la Query
                 {
                     SearchItem[] items = new SearchItem[1]
@@ -29,25 +30,43 @@ public static class Moogle
                     mycorpus.Error = 0;
                     return new SearchResult(items, "");
                 }
-                var sortlist = mycorpus.ProcessScore().OrderByDescending(x => x.Score);//.Take(10);
-                if (sortlist.Count() == 0) // No se encontraron resultados de la query original, se intenta buscar resultados de Sugerencias
+                var sortlist = mycorpus.ProcessScore().OrderByDescending(x => x.Score).Take(TDocument);
+                string suggestion = mycorpus.FindSuggestion();
+                if (sortlist.Count() <TDocument) // No se encontraron resultados de la query original, se intenta buscar resultados de Sugerencias
                 {
-                    string saux = mycorpus.FindSuggestion();
-                    //mycorpus.ProcessQuery(false);     // Procesa la query de sugerencias
-                    //sortlist = mycorpus.ProcessScore().OrderByDescending(x => x.Score);
-
-                    //if (sortlist.Count() == 0) // No se encontraron resultados de la Sugerencias.
-                    // {
-                    SearchItem[] items = new SearchItem[1]
+                    int count = sortlist.Count();
+                    string sug=mycorpus.FindSuggestionSynonyms();
+                    mycorpus.Search(sug,false);
+                    var sortlist2 = mycorpus.ProcessScore().OrderByDescending(x => x.Score).Take(TDocument-count);
+                    var notmatch = sortlist2.Where(x => !sortlist.Any(y => y.Title == x.Title));
+                    var result = sortlist.Concat(notmatch);
+                    if(result.Count()==0)
                     {
-                        new SearchItem("Ninguna coincidencia", "", 0)
+                       SearchItem[] items = new SearchItem[1]
+                    {
+                        new SearchItem("Ninguna Coincidencia", "", 0)
                     };
-                    return new SearchResult(items, saux);
-                    // }
-                    // else return new SearchResult(sortlist.ToArray(), saux);
+                    mycorpus.Error = 0;
+                    return new SearchResult(items, suggestion);  
+                    }
+                    return new SearchResult(result.ToArray(), suggestion);
+                    
+                    // string saux = mycorpus.FindSuggestion();
+                    // //mycorpus.ProcessQuery(false);     // Procesa la query de sugerencias
+                    // //sortlist = mycorpus.ProcessScore().OrderByDescending(x => x.Score);
+
+                    // //if (sortlist.Count() == 0) // No se encontraron resultados de la Sugerencias.
+                    // // {
+                    // SearchItem[] items = new SearchItem[1]
+                    // {
+                    //     new SearchItem("Ninguna coincidencia", "", 0)
+                    // };
+                    // return new SearchResult(items, saux);
+                    // // }
+                    // // else return new SearchResult(sortlist.ToArray(), saux);
                 }
                 else
-                    return new SearchResult(sortlist.ToArray(), mycorpus.FindSuggestion());
+                    return new SearchResult(sortlist.ToArray(), suggestion);
 
                 //return new SearchResult(sortlist.ToArray(), "");
             }

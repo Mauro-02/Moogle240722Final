@@ -69,10 +69,10 @@ public class Corpus
     ///<summary>
     ///Metodo Publico, que procesa cada Documento del Corpus, extrayendo sus Atributos.
     ///</summary>
-    public void Search(string query)
+    public void Search(string query, bool state)
     {
         this.inputquery = query;
-        ProcessQuery(true);
+        ProcessQuery(state);
         System.Console.WriteLine("Query procesada ✅");
     }
 
@@ -144,7 +144,7 @@ public class Corpus
         {
             int index = 0;
             foreach (var aux in vocabulary.Keys) // calcula TF-IDF de cada palabra en el vocabulario
-            {
+            {   
                 tfidfmatrix[i, index++] =
                     GetTF(docs[i], aux)
                     * (float)Math.Log10((float)docs.Length / (float)vocabulary[aux]);
@@ -181,6 +181,7 @@ public class Corpus
             tfidfqueryvector[i++] =
                 query.GetTFQuery(aux)
                 * (float)Math.Log10((float)docs.Length / (float)vocabulary[aux]);
+                
         }
     }
 
@@ -340,13 +341,11 @@ public class Corpus
             {
                 if (query.Cercanas.Count != 0)
                     score = score / (float)Cercania(i); // en la Query existe el Operador ~, e influira en el Score del Documento
-                if (score > 0)
-                {
+                
                     docs[i].Score = score;
-
                     Docs[i].Filesnippet = Snippet(Docs[i].Text, query.Palabras);
                     sitem.Add(new SearchItem(Docs[i].Filename, Docs[i].Filesnippet, docs[i].Score));
-                }
+                
             }
         }
 
@@ -367,7 +366,7 @@ public class Corpus
             }
         }
         result = text.Substring(text.IndexOf(word));
-        result = result.Length >= 500 ? result.Substring(0, 500) : text;
+        result = result.Length >= 500 ? result.Substring(0, 500) : result.Substring(0, result.Length);
         return result;
     }
 
@@ -400,7 +399,6 @@ public class Corpus
         float deno = (float)((float)Math.Sqrt(matrizsquaresum) * (float)Math.Sqrt(vectorsquaresum));
         if (deno != 0f)
             similaridadcoseno = (float)similaridadprodescalar / deno;
-
         return similaridadcoseno;
     }
 
@@ -480,6 +478,38 @@ public class Corpus
         this.suggestions = this.suggestions.TrimEnd(' ');
         return this.suggestions;
     }
+
+    public string FindSuggestionSynonyms()
+    {
+        string suggestion = "";
+        this.suggestions = "";
+        string[] auxsyn;
+        
+
+        foreach (var wordquery in query.Querydictionary.Keys) // para cada palabra de la query
+        {
+                if (syn is null)
+                    syn = new Synonymous(); // Si no se ha creado el objeto syn, se instancia la clase Synonymous
+                if (syn.SynDic!.ContainsKey(wordquery)) // Existen Sinonimos para la palabra de la Query
+                {
+                    auxsyn = syn.SynDic[wordquery]; // en auxsyn el arreglo de sinonimos de wordquery
+                    foreach (string synword in auxsyn) // Por cada Sinonimo, se averigua si existe en el Corpus
+                        if (vocabulary.ContainsKey(synword)) // El sinonimo esta en algun Documento del Corpus, se agrega a Sugerencia.
+                        {
+                            suggestion = synword; // lo agrego a Suggestion y Salgo del foreach
+                            break;
+                        }
+                        if(suggestion=="")
+                        suggestion=wordquery;
+                    this.suggestions += suggestion;
+                    this.suggestions += " ";
+                    suggestion = "";
+                }
+        }
+        this.suggestions = this.suggestions.TrimEnd(' ');
+        return this.suggestions;
+    }
+
 
     ///<summary>
     ///calcula la distancia entre dos cadenas y devuelve la similitud entre ellas.
