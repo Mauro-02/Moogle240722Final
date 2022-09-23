@@ -31,9 +31,10 @@ public class Corpus
 
     ///<summary>
     ///Constructor de la Clase Corpus.
-    ///Parametros de entrada: Camino donde se encuentran los Ficheros (string), Extension de los Ficheros (string), query de entrada (string)
+    ///Parametros de entrada: Camino donde se encuentran los Ficheros (string), Extension de los Ficheros (string)
     ///Despues de verificar que el camino es válido y que existen ficheros en ese camino, crea el objeto docs (arreglo de clase Document).
     ///Si el camino no existe o no existen ficheros en ese camino, inicializa la variable error en y o 2.
+    ///Se procesan los documentos y se crea la matriz tfidf.
     ///</summary>
     public Corpus(string path, string fileext) //, string inputquery)
     {
@@ -98,8 +99,7 @@ public class Corpus
         else
         {
             query = new Query(this.suggestions);
-            // query.Querydictionary.Clear();    // Limpio Diccionario de palabras de la query original
-            //Comun.FillDictionary(this.query.Querydictionary, this.suggestions); // se llena el Dicionario con las palabras de Sugerencias
+        
         }
 
         tfidfqueryvector = new float[vocabulary.Count]; // crea el objeto tfidfqueryvector
@@ -355,7 +355,6 @@ public class Corpus
     private string Snippet(string text, List<string> words)
     {
         string result = "";
-        //bool aux = false;
         string word = " ";
         for (int i = 0; i < words.Count; i++)
         {
