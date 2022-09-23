@@ -60,10 +60,10 @@ public class Document
         //     .Replace('\\', ' ')
         //     +" ";
         filename =
-            pathfilename.Substring(pathfilename.LastIndexOf("/") + 1)
-            + " ("
-            + dt.ToString("dd/MM/yy")
-            + ")"; //extrae substring a partir del ultimo / +1
+            pathfilename.Substring(pathfilename.LastIndexOf("/") + 1);
+            // + " ("
+            // + dt.ToString("dd/MM/yy")
+            // + ")"; //extrae substring a partir del ultimo / +1
         filesnippet = " "; //linestext.Length >= lengthsnipe ? linestext.Substring(0, 100) : linestext;                   //si el texto tiene mas de 100 terminos devuelve solo esta cantidad sino me devuelve los que tengan
         filepath = pathfilename;
 

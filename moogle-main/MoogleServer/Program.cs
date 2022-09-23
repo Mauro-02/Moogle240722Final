@@ -1,7 +1,7 @@
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Web;
 
-//MoogleEngine.Corpus mycorpus = new MoogleEngine.Corpus("../Content", "*.txt");
+//MoogleEngine.Corpus mycorpus1 = new MoogleEngine.Corpus("../Content", "*.txt");
 
 var builder = WebApplication.CreateBuilder(args);
 
