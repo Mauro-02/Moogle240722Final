@@ -1,6 +1,7 @@
 ﻿@page "/"
 
 <PageTitle>Moogle!</PageTitle>
+<body>
 
 <h1>🔍 Moogle!</h1>
 <form @onsubmit="RunQuery">
@@ -21,17 +22,27 @@
         <p>Se muestran los Resultados de:   <strong><a href="#">@query</a></strong></p>
     </div>
 }*@
+<div>
 <ul class="results">
 @foreach (var item in result.Items()) {
     <li>
         <div class="item">
-            <p class="title">@item.Title</p>
-            <p>... @item.Snippet ...</p>
-        </div>
+  <div class="item-details">
+   <p class="title"><a href="?" @onclick="@(e=> OpenDocument(item.Title))">@item.Title</a></p>
+     <p>...@item.Snippet...</p>
+  </div>
+  <button class="item-button"@onclick="@(e=> OpenDocument(item.Title))">Abrir Documento </button>
+  
+</div>
+        @* <div class="item">
+            <p class="title"><a href="?" @onclick="@(e=> OpenDocument(item.Title))">@item.Title</a></p>
+            <p>...@item.Snippet...</p>
+        </div> *@
     </li>
 }
 </ul>
-
+</div>
+</body>
 @code {
     private string query = "";
     private SearchResult result = new SearchResult();
@@ -43,5 +54,36 @@
         query = @result.Suggestion;
         RunQuery();
     }
-    
+    private void OpenDocument(string fileTitle)
+    {
+        try
+        {
+     @* System.Diagnostics.Process process= new System.Diagnostics.Process();
+        process.StartInfo.FileName = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "../../Content/"+ fileTitle);;
+        process.StartInfo.Arguments = "-n";
+process.StartInfo.WindowStyle = System.Diagnostics.ProcessWindowStyle.Maximized;
+process.Start();
+process.WaitForExit(); *@
+  @* private void OpenDocument(string fileTitle) *@
+//     {
+//      try
+//         {
+//             DirectoryInfo? baseDir = Directory.GetParent(Directory.GetCurrentDirectory());
+//             string contentFolder = Path.Join(baseDir?.FullName, "Content");
+//             string fullFileName = Path.Join(contentFolder, fileTitle);
+//             var process = System.Diagnostics.Process.Start(fullFileName);
+//         }
+//         catch
+//         {
+//             System.Console.WriteLine("Couldn't open file...");
+//         } 
+//     }
+
+   File.Open("../Content/"+ fileTitle,FileMode.Open, FileAccess.Read);
+            }
+        catch
+        {
+            System.Console.WriteLine("Couldn't open file...");
+        }
+    }
 }
