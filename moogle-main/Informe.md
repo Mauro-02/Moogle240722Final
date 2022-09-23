@@ -372,3 +372,14 @@ En el diccionario *querydictionary* se almacena informacion de las palabras de l
 # ***[Synonyms](https://github.com/Mauro-02/Moogle240722Final/blob/f8492faf8c9cfdfef421e193091fd34b61a0e3ea/moogle-main/MoogleEngine/Synonyms.cs)***
 
 >Clase encargada de procesar un archivo json con una coleccion de sinonimos que son utilizados para enriquecer la busqueda en caso de que esta devuelva pocos resultados
+
+# **Comentarios finales e ideas extras implementadas**
+* Codigo
+
+Si la Query introducida es *After all this time* se dara de forma automatica como titulo del documento *Severus Snape* y como snippet *Always* haciendo una clara referencia al nombre del proyecto. Cabe resaltar que esta idea fue de mi pareja a la cual le pedi que hiciera unos logos para la parte visual del proyecto y ella asumio que Moogle era por Harry Potter, yo no habia caido en esa semejanza aún
+
+* Html y Css
+
+Se modifico el apartado visual y se le agregaron varias funcionalidades:
+1. Posibilidad de realizar una busqueda sin necesidad de tocar en el boton buscar, basta con apretar enter
+2. Posibilidad de realizar una busqueda directamente presionando sobre la sugerencia de la Query
