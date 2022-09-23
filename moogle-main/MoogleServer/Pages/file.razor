@@ -1,0 +1,26 @@
+@page "/file/{name}"
+
+<PageTitle>Moogle!</PageTitle>
+
+<h1 class="title2">Moogle!</h1>
+
+
+<div class="item">
+    <h2 class="txt_name">@name</h2>
+    <p class="txt_text">@read($"../Content/{name}")</p>
+</div>
+
+
+
+
+
+@code {
+    [Parameter]
+    public string? name { get; set; }
+    <!-- string asd=name; -->
+    public static string read(string path){
+        // Reads txts 
+        string content = File.ReadAllText(path);
+        return content;
+    }
+}

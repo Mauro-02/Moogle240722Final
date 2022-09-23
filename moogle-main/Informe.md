@@ -16,17 +16,19 @@ Moogle es un motor de busqueda desarrollado con el objetivo de emparejar una que
   * GetScore
   * LevenshteinSimilarity
    
-
 * ***Document***
+    * FillDictionarys
 * ***Moogle***
 * ***Query***
-* ***SearchItem***
-* ***SearchResult***
+    * Normalización de la Query
+    * Filtrado de los operadores
 * ***Synonyms***
 
----
 
-***[Corpus](https://github.com/Mauro-02/Moogle240722Final/blob/5dab749c342e9c04bdcbe0244181cdd3826cec7a/moogle-main/MoogleEngine/Corpus.cs)***
+
+
+
+# ***[Corpus](https://github.com/Mauro-02/Moogle240722Final/blob/5dab749c342e9c04bdcbe0244181cdd3826cec7a/moogle-main/MoogleEngine/Corpus.cs)***
 
 Aqui se desarrollan la gran mayoria de los procesos del proyecto, es la clase principal del Proyecto, manipula los atributos para los Documentos y Query. Cuando se ejecuta el constructor de la clase, esta comprueba la existencia de la carpeta Content, y la existencia de archivos .txt dentro de esta, realiza el procesado de los documentos a traves de la clase Document, y llena la matriz tfidf que contendra la relacion del peso de cada palabra en los documentos que la contienen
 
@@ -210,16 +212,163 @@ private int Cercania(int docindex)
         return result;
     }
 ```
+* GetScore
+>   Calcula el Score del documento pasado como parametro, para ello se basa en el Calculo del Coeficiente de Similaridad del Coseno, para el calculo se usan los valores de la matrix-tfidf y el queryvector-tfidf. El numerador es un producto escalar entre los pesos del documento y la consulta; y el denominador la raíz cuadrada del producto del sumatorio de los pesos del documento y la consulta al cuadrado. La formulación del denominador con raíz cuadrada y cálculo de cuadrados, se diseñó para conseguir un resultado final de la división, inferior a 1, de tal manera que el coeficiente fuera de fácil manejo y lectura.
+```c#
+public float GetScore(int docnumber)
+    {
+        float similaridadprodescalar = 0f; // Suma de los productos de cada elemento de la matriz-tfidf asociada al documento docnumber y los elementos del vector tfidfquery
 
+        float matrizsquaresum = 0f; // Suma del cuadrado de cada elemento de la matriz-tfidf asociada al documento docnumber
 
-***[Document](https://github.com/Mauro-02/Moogle240722Final/blob/9ef82afdbf9aa1ae5992096a7156b3a5f2aa78ec/moogle-main/MoogleEngine/Document.cs)***
+        float vectorsquaresum = 0f; // suma del cuadrado de los elemntos del vector tfidf
 
-***[Moogle](https://github.com/Mauro-02/Moogle240722Final/blob/18014439a5de6e7cad86da7ae843756e34d4332c/moogle-main/MoogleEngine/Moogle.cs)***
+        float similaridadcoseno = 0f; // similaridadprodescalar / ((raizcuadrada(matrizsquaresum)) * (raizcuadrada(vectorsquaresum)))
 
-***[Query](https://github.com/Mauro-02/Moogle240722Final/blob/f8492faf8c9cfdfef421e193091fd34b61a0e3ea/moogle-main/MoogleEngine/Query.cs)***
+        for (int i = 0; i < vocabulary.Count; i++)
+        {
+            similaridadprodescalar += tfidfmatrix[docnumber, i] * tfidfqueryvector[i]; // Similaridad por el producto escalar del vector query y la Fila de la matriz-tfidf del documento docnumber
 
-***[SearchItem](https://github.com/Mauro-02/Moogle240722Final/blob/0fbfc711ab947b2284521e912c8b5778c9385b7a/moogle-main/MoogleEngine/SearchItem.cs)***
+            matrizsquaresum += (float)Math.Pow(tfidfmatrix[docnumber, i], 2); // Suma del cuadrado de cada elemento de la matriz-tfidf asociada al documento docnumber
+            vectorsquaresum += (float)Math.Pow(tfidfqueryvector[i], 2); // suma del cuadrado de los elemntos del vector tfidf
+        }
 
-***[SearchResult](https://github.com/Mauro-02/Moogle240722Final/blob/f8492faf8c9cfdfef421e193091fd34b61a0e3ea/moogle-main/MoogleEngine/SearchResult.cs)***
+        float deno = (float)((float)Math.Sqrt(matrizsquaresum) * (float)Math.Sqrt(vectorsquaresum));
+        if (deno != 0f)
+            similaridadcoseno = (float)similaridadprodescalar / deno;
+        return similaridadcoseno;
+    }
+```
+* LevenshteinSimilarity
+>Calcula la distancia entre dos cadenas y devuelve la similitud entre ellas. Para ello normaliza la distancia, dividiendola entre la longitud de la cadena mayor (se obtiene un valor entre 0  y 1). Valores de la distancia Normalizada cercanos a 0, corresponde a cadenas semejantes. Finalmente la similitud entre dos cadenas, puede verse como el inverso de la distancia normalizada. Cuando la distancia Normalizada es pequeña la similitud es grande, por tanto se define que: sim(c1,c2) = 1 - DNorm(c1,c2)
 
-***[Synonyms](https://github.com/Mauro-02/Moogle240722Final/blob/f8492faf8c9cfdfef421e193091fd34b61a0e3ea/moogle-main/MoogleEngine/Synonyms.cs)***
+```c#
+  private float LevenshteinSimilarity(string wordvoc, string wordquery)
+    {
+        int dist = 0;
+        int m = wordvoc.Length;
+        int n = wordquery.Length;
+        int[,] d = new int[m + 1, n + 1];
+        if ((n == 0) || (m == 0))
+            return 0f; // si una de las cadenas es vacia => Similitud 0
+
+        for (int i = 0; i <= m; i++)
+        {
+            d[i, 0] = i;
+        }
+        for (int j = 0; j <= n; j++)
+        {
+            d[0, j] = j;
+        }
+
+        for (int i = 1; i <= m; i++)
+        {
+            for (int j = 1; j <= n; j++)
+            {
+                dist = (wordvoc[i - 1] == wordquery[j - 1]) ? 0 : 1;
+                d[i, j] = Math.Min(
+                    Math.Min(d[i - 1, j] + 1, d[i, j - 1] + 1),
+                    d[i - 1, j - 1] + dist
+                );
+            }
+        }
+
+        float distNorm = m > n ? ((float)d[m, n] / (float)m) : ((float)d[m, n] / (float)n); // Normaliza la Distancia
+        return 1 - distNorm;
+    }
+```
+# ***[Document](https://github.com/Mauro-02/Moogle240722Final/blob/9ef82afdbf9aa1ae5992096a7156b3a5f2aa78ec/moogle-main/MoogleEngine/Document.cs)***
+
+Esta clase se encarga del almacenamiento de los documentos y su normalizacion, su constructor recibe como parametro de entrada: Camino y Nombre del Fichero a Procesar, lee el contenido del Fichero en una String, llama al Metodo *FillDictionarys* para llenar el Diccionario docsdictionary, le da valores a las variables wordcount, filename, filesnippet y filepath, a la variable filename, se le agrega la fecha de Modificacio del fichero y se muestra en el resultado de la busqueda.
+
+* FillDictionarys
+>  Llena el Diccionario docsdictionary con las palabras del Documento, los parametro de entrada son: Diccionario de Doc a llenar, una string con todas las palabras del Documento y el Diccionario Vocabulario. Después de procesado el último Documento, se ha llenado el Vocabulario del Corpus con todas las palabras (key) y como valor la cantidad de documentos que contienen la palabra.
+
+```c#
+    private int FillDictionarys(
+        Dictionary<string, List<int>> dictionary,
+        string textread,
+        Dictionary<string, int> v
+    ) //textread: Contenido leido desde los Ficheros
+    {
+        this.text = " "+ Regex.Replace(textread,"[^a-zA-Z0-9_áéíóúñ]", " ") //reemplaza todo lo que no sea letra o numero por un espacio
+            .Replace('á', 'a')
+            .Replace('é', 'e')
+            .Replace('í', 'i')
+            .Replace('ó', 'o')
+            .Replace('ú', 'u')+" ";
+            var words=text.Trim().Split(" ", StringSplitOptions.RemoveEmptyEntries); // En words, las palabras separadas por espacio. Las palabras quedan sin acentos
+        
+
+        for (int i = 0; i < words.Length; i++) // Ciclo para Obtener cada palabra
+        {
+            if (dictionary.ContainsKey(words[i])) //comprobar si el diccionario de Documentos contiene la palabra, si la tiene agrego un nuevo elemento a la lista con la posicion de la palabra
+            {
+                dictionary[words[i]].Add(i);
+            }
+            else
+            {
+                dictionary.Add(words[i], new List<int> { i }); // Si la palabra no existe en el Dic de Doc., se agrega como Key y se agrega un elemento a la lista con la posicion
+
+                if (v.ContainsKey(words[i])) //si la palabra ya esta en Vocabulario del Corpus, se incrementa en uno, para contar que existe en ese Documento
+                {
+                    v[words[i]]++;
+                }
+                else
+                {
+                    v.Add(words[i], 1); // agrego la palabra al vocabulario e inicializo el contador en 1
+                }
+            }
+        }
+
+        return words.Length;
+    }
+
+```
+   
+
+# ***[Moogle](https://github.com/Mauro-02/Moogle240722Final/blob/18014439a5de6e7cad86da7ae843756e34d4332c/moogle-main/MoogleEngine/Moogle.cs)***
+ >En esta clase se inicia el constructor de la clase *Corpus* y se recibe la Query desde el servidor. Se hacen una serie de comprobaciones para asegurar que no hayan errores relacionados con los documentos o la Query. Se ejecuta el método *ProcessScore* y los resultados se ordenan descendentemente guardando solamente los 15 primeros. A continuacion se busca una sugerencia a la Query con el método *FindSuggestion*. Si la cantidad de documentos devueltos es menor a 15, se buscaran sinonimos de la Query para intentar aumentar la cantidad de documentos devueltos
+
+# ***[Query](https://github.com/Mauro-02/Moogle240722Final/blob/f8492faf8c9cfdfef421e193091fd34b61a0e3ea/moogle-main/MoogleEngine/Query.cs)***
+
+En esta clase se procesa la Query, se normaliza y se hace una serie de procedimientos para la deteccion de los operadores, se hace un barrido de los elementos de la Query y los clasifica en Tokens, segun la clasificacion definida por el enum token:
+```c#
+    private enum token
+    {
+        Importancia,
+        Cercania,
+        Obligacion,
+        Omitir,
+        ImpObli,
+        Palabra,
+        Ninguno
+    };
+```
+>Esto permite identificar a que operador le corresponde cada palabra
+
+En el diccionario *querydictionary* se almacena informacion de las palabras de la Query, estas seran los Key y los valores, un arreglo de 4 elementos, usados de la siguiente manera:
+*    (0): Cantidad de veces de la palabra en la query
+*    (1): Operador Importancia, =0 no existen *, !=0 cantidad de *
+*    (2): Operador Obligacion, =0 no existe ^, !=0 existe ^
+*    (3): Operador Omitir, =0 no existe !, !=0 existe !
+
+>El operador de Importancia (*) se analiza cuando se está obteniendo el tfidf de la Query, el Tf de la palabra se multiplicará por 1.5f por cada operador (*) que tenga esa palabra
+```c#
+ public float GetTFQuery(string word)
+    {
+        float auxtf = 0f;
+        if (querydictionary.ContainsKey(word)) //la palabra del Vocabulario (pasada como parametro) esta en el Diccionario de La Query
+        {
+            auxtf = (float)querydictionary[word][0] / (float)wordquerycount; // en [0], esta la cantidad de veces q aparece la palabra en la Query
+            if (querydictionary[word][1] != 0)
+                auxtf = (float)auxtf * (float)querydictionary[word][1] * 1.5f; // si pos [1] !=0 esa palabra tenia *, y el valor es la cantidad de *
+        }
+
+        return auxtf; //en otro caso devuelvo 0
+    }
+```
+
+# ***[Synonyms](https://github.com/Mauro-02/Moogle240722Final/blob/f8492faf8c9cfdfef421e193091fd34b61a0e3ea/moogle-main/MoogleEngine/Synonyms.cs)***
+
+>Clase encargada de procesar un archivo json con una coleccion de sinonimos que son utilizados para enriquecer la busqueda en caso de que esta devuelva pocos resultados

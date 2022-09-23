@@ -13,7 +13,7 @@ public static class Moogle
         if (query.ToLower() == "after all this time")
         {
             return new SearchResult(
-                new SearchItem[] { new SearchItem("Severus Snape", "Always", 1.0f) }
+                new SearchItem[] { new SearchItem("Severus Snape", "Always", 1.0f,  "") }
             );
         }
         else
@@ -26,7 +26,7 @@ public static class Moogle
                 {
                     SearchItem[] items = new SearchItem[1]
                     {
-                        new SearchItem("Ninguna Coincidencia", "", 0)
+                        new SearchItem("Ninguna Coincidencia", "", 0, "")
                     };
                     mycorpus.Error = 0;
                     return new SearchResult(items, "");
@@ -45,7 +45,7 @@ public static class Moogle
                     {
                        SearchItem[] items = new SearchItem[1]
                     {
-                        new SearchItem("Ninguna Coincidencia", "", 0)
+                        new SearchItem("Ninguna Coincidencia", "", 0,   "")
                     };
                     mycorpus.Error = 0;
                     return new SearchResult(items, suggestion);  
@@ -77,7 +77,7 @@ public static class Moogle
                 {
                     SearchItem[] items = new SearchItem[1]
                     {
-                        new SearchItem("Directorio de Ficheros no Existe", "", 0)
+                        new SearchItem("Directorio de Ficheros no Existe", "", 0, "")
                     };
                     return new SearchResult(items, "");
                 }
@@ -85,7 +85,7 @@ public static class Moogle
                 {
                     SearchItem[] items = new SearchItem[1]
                     {
-                        new SearchItem("No existen Ficheros en el Directorio", "", 0)
+                        new SearchItem("No existen Ficheros en el Directorio", "", 0, "")
                     };
                     return new SearchResult(items, "");
                 }

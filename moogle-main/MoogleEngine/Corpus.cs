@@ -344,7 +344,8 @@ public class Corpus
                 
                     docs[i].Score = score;
                     Docs[i].Filesnippet = Snippet(Docs[i].Text, query.Palabras);
-                    sitem.Add(new SearchItem(Docs[i].Filename, Docs[i].Filesnippet, docs[i].Score));
+                    sitem.Add(new SearchItem(Docs[i].Filename, Docs[i].Filesnippet, docs[i].Score, docs[i].Filepath + docs[i].Filename));
+                    
                 
             }
         }
@@ -373,7 +374,7 @@ public class Corpus
     ///Calcula el Score, del documento pasado como Parametro.
     ///Para ellos se basa en el Calculo del Coeficiente Similaridad del Coseno.
     ///Para el calculo se usan los valores de la matrix-tfidf y el queryvector-tfidf.
-    ///http://ccdoc-tecnicasrecuperacioninformacion.blogspot.com
+    ///http://ccdoc-tecnicasrecuperacioninformacion.blogspot.com/2012/12/modelo-vectorial.html?m=1#:~:text=El%20modelo%20de%20espacio%20vectorial,fueron%20ponderados%20mediante%20TF-IDF
     ///</summary>
 
 

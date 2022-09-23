@@ -49,16 +49,6 @@ public class Document
         {
             throw new Exception(ex.Message);
         }
-        // this.text = " "+linestext.Replace('á', 'a')
-        //     .Replace('é', 'e')
-        //     .Replace('í', 'i')
-        //     .Replace('ó', 'o')
-        //     .Replace('ú', 'u')
-        //     .Replace('\n', ' ')
-        //     .Replace('\r', ' ')
-        //     .Replace('\t', ' ')
-        //     .Replace('\\', ' ')
-        //     +" ";
         filename =
             pathfilename.Substring(pathfilename.LastIndexOf("/") + 1);
             // + " ("
@@ -71,7 +61,7 @@ public class Document
     }
 
     ///<summary>
-    ///Llena el Diccionario docsdictionary y Vocabulary
+    ///Llena el Diccionario docsdictionary con las palabras del Documento.
     ///Parametro de entrada: Diccionario de Doc a llenar, una string con todas las palabras del Documento y el Diccionario Vocabulario.
     ///Despues de Procesado el Ultimo Documento, se ha llenado el Vocabulario del Corpus con Todas las palabras (key) y como valor la cantidad de Doc que contienen la palabra.
     ///</summary>
