@@ -383,3 +383,4 @@ Si la Query introducida es *After all this time* se dara de forma automatica com
 Se modifico el apartado visual y se le agregaron varias funcionalidades:
 1. Posibilidad de realizar una busqueda sin necesidad de tocar en el boton buscar, basta con apretar enter
 2. Posibilidad de realizar una busqueda directamente presionando sobre la sugerencia de la Query
+3. Posibilidad proximamente de acceder al documento original tocando en el titulo de este
