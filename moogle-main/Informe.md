@@ -76,6 +76,10 @@ public void FillTFIDFMatrix()
         }
     }
 ```
+>A continuación un ejemplo de como pudiera quedar una matriz de este estilo:
+
+![Matriz_Tf-idf](Informe/TablaTf-Idf.png "Matriz_Tf-Idf")
+
 * **Operadores**:
 
 El proyecto cuenta con 4 operadores principales, en esta clase se desarrollan 3 de ellos:  
@@ -213,6 +217,8 @@ private int Cercania(int docindex)
 ```
 * GetScore
 >   Calcula el Score del documento pasado como parámetro, para ello se basa en el cálculo del Coeficiente de Similaridad del Coseno, para el cálculo se usan los valores de la matriz-tfidf y el queryvector-tfidf. El numerador es un producto escalar entre los pesos del documento y la consulta; y el denominador la raíz cuadrada del producto del sumatorio de los pesos del documento y la consulta al cuadrado. La formulación del denominador con raíz cuadrada y cálculo de cuadrados, se diseñó para conseguir un resultado final de la división, inferior a 1, de tal manera que el coeficiente fuera de fácil manejo y lectura.
+
+![Ángulo_cos](Informe/Similitud.png "Ángulo_cos")
 ```c#
 public float GetScore(int docnumber)
     {
@@ -238,6 +244,20 @@ public float GetScore(int docnumber)
         return similaridadcoseno;
     }
 ```
+>Siguiendo los datos de la matriz mostrada más arriba (*Ángulo_Cos*) podemos calcular la *similaridelcoseno* como se muestra a continuacion:
+
+![Formula](Informe/Formula.png "Formula")
+
+>La *similaridadprodescalar*  de cada documento sería:
+
+![Similaridadprodescalar](Informe/Similaridad.png "Similaridadprodescalar")
+
+>Quedando asi la *similaridelcoseno*  de cada documento:
+
+![Documento 1](Informe/Ejemplo1.png "Documento 1")
+
+![Documento 2](Informe/Ejemplo2.png "Documento 2")
+
 * LevenshteinSimilarity
 >Calcula la distancia entre dos cadenas y devuelve la similitud entre ellas. Para ello normaliza la distancia, dividiéndola entre la longitud de la cadena mayor (se obtiene un valor entre 0  y 1). Valores de la distancia Normalizada cercanos a 0, corresponde a cadenas semejantes. Finalmente la similitud entre dos cadenas, puede verse como el inverso de la distancia normalizada. Cuando la distancia Normalizada es pequeña la similitud es grande, por tanto se define que: sim(c1,c2) = 1 - DNorm(c1,c2)
 
