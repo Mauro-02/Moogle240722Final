@@ -244,15 +244,15 @@ public float GetScore(int docnumber)
         return similaridadcoseno;
     }
 ```
->Siguiendo los datos de la matriz mostrada más arriba (*Matriz_Tf-Idf*) podemos calcular la *similaridelcoseno* como se muestra a continuacion:
+>Siguiendo los datos de la matriz mostrada más arriba (*Matriz_Tf-Idf*) podemos calcular la *similaridelcoseno* como se muestra a continuaciÓn:
 
-![Formula](Informe/Formula.png "Formula")
+![Fórmula](Informe/Formula.png "Fórmula")
 
 >La *similaridadprodescalar*  de cada documento sería:
 
 ![Similaridadprodescalar](Informe/Similaridad.png "Similaridadprodescalar")
 
->Quedando asi la *similaridelcoseno*  de cada documento:
+>Quedando así la *similaridelcoseno*  de cada documento:
 
 ![Documento 1](Informe/Ejemplo1.png "Documento 1")
 
