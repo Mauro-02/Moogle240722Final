@@ -1,6 +1,6 @@
 # Proyecto Moogle! Mauro Eduardo Campver Barrios C-112
 
-Moogle es un motor de busqueda desarrollado con el objetivo de emparejar una query con los documentos relacionados a esta de una forma u otra. Se implemento un modelo vectorial en el cual se representan los pesos(Tf-Idf) de las palabras presentes en cada documento, quedando un vector por documento que luego sera comparado a con el vector de la query a traves de la similitud del coseno. Este proceso arroja un score por documento, posteriormente se organiza de forma descendente, premiando a los documentos con más puntuacion.
+Moogle es un motor de búsqueda desarrollado con el objetivo de emparejar una query con los documentos relacionados a esta de una forma u otra. Se implementó un modelo vectorial en el cual se representan los pesos(Tf-Idf) de las palabras presentes en cada documento, quedando un vector por documento que luego será comparado a con el vector de la query a través de la similitud del coseno. Este proceso arroja un score por documento, posteriormente se organiza de forma descendente, premiando a los documentos con más puntuación.
 
 ---
 ## Clases
@@ -30,12 +30,12 @@ Moogle es un motor de busqueda desarrollado con el objetivo de emparejar una que
 
 # ***[Corpus](https://github.com/Mauro-02/Moogle240722Final/blob/5dab749c342e9c04bdcbe0244181cdd3826cec7a/moogle-main/MoogleEngine/Corpus.cs)***
 
-Aqui se desarrollan la gran mayoria de los procesos del proyecto, es la clase principal del Proyecto, manipula los atributos para los Documentos y Query. Cuando se ejecuta el constructor de la clase, esta comprueba la existencia de la carpeta Content, y la existencia de archivos .txt dentro de esta, realiza el procesado de los documentos a traves de la clase Document, y llena la matriz tfidf que contendra la relacion del peso de cada palabra en los documentos que la contienen
+Aquí se desarrollan la gran mayoría de los procesos del proyecto, es la clase principal del Proyecto, manipula los atributos para los Documentos y Query. Cuando se ejecuta el constructor de la clase, esta comprueba la existencia de la carpeta Content, y la existencia de archivos .txt dentro de esta, realiza el procesado de los documentos a través de la clase Document, y llena la matriz tf-idf que contendrá la relación del peso de cada palabra en los documentos que la contienen
 
-Dentro de esta clase hay que destacar varios metodos, se enumeraran a continuacion y se dara una breve explicacion de su funcion
+Dentro de esta clase hay que destacar varios métodos, se enumeraran a continuación y se dará una breve explicación de su función
 
 * ProcessQuery
->Se encarga de la procesado de la query, es un metodo Boolean ya que varia su ejecucion si es la 1ra vez que se ejecuta(seria verdadero) o no(falso)
+>Se encarga del procesado de la query, es un método Boolean, ya que varía su ejecución si es la 1ra vez que se ejecuta(sería verdadero) o no(falso)
 ``` c#
   public void ProcessQuery(Boolean originalquery)
     {
@@ -58,7 +58,7 @@ Dentro de esta clase hay que destacar varios metodos, se enumeraran a continuaci
     }
 ```
 * FillTFIDFMatrix()
->Se encarga del llenaddo de la matriz tfidf que relaciona los documentos con las palabras de este y su peso. El tf-idf forma parte del modelo vectoria. El Tf se calcula a traves del metodo *GetTF*, su explicacion breve seria la división del número de ocurrencias de la palabra en el documento / total palabras en el documeno, si la palabra no está en el Documento, entonces tf=0f. El Idf sería el log base10(cantidad de documentos en el corpus / cantidad de documentos que contienen la palabra)
+>Se encarga del llenado de la matriz tfidf que relaciona los documentos con las palabras de este y su peso. El tf-idf forma parte del modelo vectorial. El Tf se calcula a través del método *GetTF*, su explicación breve sería la división del número de ocurrencias de la palabra en el documento / total palabras en el documento, si la palabra no está en el Documento, entonces tf=0f. El Idf sería el log base10(cantidad de documentos en el corpus / cantidad de documentos que contienen la palabra)
 ```c#
 public void FillTFIDFMatrix()
     {
@@ -78,9 +78,9 @@ public void FillTFIDFMatrix()
 ```
 * **Operadores**:
 
-El proyecto cuenta con 4 operadores principales, en este clase se desarrolan 3 de ellos:  
+El proyecto cuenta con 4 operadores principales, en esta clase se desarrollan 3 de ellos:  
 * ThereIsNotSkipWordInDocument(!)
->   Averigua si hay alguna palabra de la Query con el Signo !, si existe alguna palabra con !, la busca en el diccionario del Documento, si existe, el Documento no clasifica y retorna False, si todas las palabras con !, no estan en el Documento, el Documento clasifica y retorna True, también retorna True, si ninguna palabra de la Query tiene el Operador !.
+ >  Averigua si hay alguna palabra de la Query con el Signo !, si existe alguna palabra con !, la busca en el diccionario del Documento, si existe, el Documento no clasifica y retorna False, si todas las palabras con !, no están en el Documento, el Documento clasifica y retorna True, también retorna True, si ninguna palabra de la Query tiene el Operador !.
 ```c#
     private Boolean ThereIsNotSkipWordInDocument(int docindex)
     {
@@ -99,7 +99,7 @@ El proyecto cuenta con 4 operadores principales, en este clase se desarrolan 3 d
 ```
 
 * ThereIsForceWordInDocument(^)
->    Averigua si hay alguna palabra de la Query con el Signo ^, si existe alguna palabra con ^, la busca en el Diccionario del Documento, si no existe, el Documento no clasifica y retorna False, si todas las palabras con ^, están en el Documento, el documento clasifica y retorna True, tambien Retorna True, si ninguna palabra de la Query tiene el Operador ^.
+>    Averigua si hay alguna palabra de la Query con el Signo ^, si existe alguna palabra con ^, la busca en el Diccionario del Documento, si no existe, el Documento no clasifica y retorna False, si todas las palabras con ^, están en el Documento, el documento clasifica y retorna True, también Retorna True, si ninguna palabra de la Query tiene el Operador ^.
 
 ```c#
     private Boolean ThereIsForceWordInDocument(int docindex)
@@ -117,8 +117,8 @@ El proyecto cuenta con 4 operadores principales, en este clase se desarrolan 3 d
     }
 ```
 
-* Cercania(~)
->   Determina la distancia mínima entre las palabras de la Query con el Operador de Cercania (~) en el Documento, pasado como parametro. Todos los Documentos que llegan aqui, ya han clasificado con score > 0 y superado las condiciones de los Operadores ! y ^, los conceptos Score y Cercania, son inversamente proporcionales, si Cernania es pequeña el Score aumenta, para esto se calcula la cercania mínima entre todas las parejas de palabras que existan en los Documentos, si alguna palabra no aparece en el Documento, se continua con el análisis de las otras parejas, si no hay palabras afectadas con el Operador de Cercania, como Distancia retorna 1 , con lo que no se afecta el Score del Documento, si hay varias parejas de palabras, parece justo devolver la distancia minima obtenida, asi se premia al documento, si hay mas parejas de palabras que no existen en el Documento, se retorna como distancia la cantidad de palabras del Documento.
+* Cercanía(~)
+>  Determina la distancia mínima entre las palabras de la Query con el Operador de Cercanía (~) en el Documento, pasado como parámetro. Todos los Documentos que llegan aquí, ya han clasificado con score  0 y superado las condiciones de los Operadores ! y ^, los conceptos Score y Cercanía, son inversamente proporcionales, si Cercanía es pequeña el Score aumenta, para esto se calcula la cercanía mínima entre todas las parejas de palabras que existan en los Documentos, si alguna palabra no aparece en el Documento, se continúa con el análisis de las otras parejas, si no hay palabras afectadas con el Operador de Cercanía, como Distancia retorna 1 , con lo que no se afecta el Score del Documento, si hay varias parejas de palabras, parece justo devolver la distancia mínima obtenida, así se premia al documento, si hay más parejas de palabras que no existen en el Documento, se retorna como distancia la cantidad de palabras del Documento.
 
 ```c#
 private int Cercania(int docindex)
@@ -164,8 +164,7 @@ private int Cercania(int docindex)
 ```
 
 * ProcessScore
->Para cada Documento, calcula su Score y si cumple las condiciones de eligibilidad( *ThereIsNotSkipWordInDocument* y *ThereIsForceWordInDocument* ) y se agrega a la lista SearchItem junto al titulo del documento y el Snippet
-
+>Para cada Documento, calcula su Score y si cumple las condiciones de elegibilidad( *ThereIsNotSkipWordInDocument* y *ThereIsForceWordInDocument* ) y se agrega a la lista SearchItem junto al título del documento y el Snippet
 ```c#
    public List<SearchItem> ProcessScore()
     {
@@ -193,7 +192,7 @@ private int Cercania(int docindex)
 ```
     
 * Snippet
->En este punto el documento a analizar tiene una cierta relacion con la Query, por lo que al menos una palabra de esta está en el documento, se recorre la Query comprobando una por una la existencia de esta en el documento, luego se extrae un *Substring* del documento a partir de la posicion de la 1ra palabra encontrada. Si este *string* tiene más de 500 caracteres se extrae un *Substring* de este desde el inicio hasta 500 caracteres a la derecha, sino se devuelve completo
+>En este punto el documento a analizar tiene una cierta relación con la Query, por lo que al menos una palabra de esta está en el documento, se recorre la Query comprobando una por una la existencia de esta en el documento, luego se extrae un *Substring* del documento a partir de la posición de la 1ra palabra encontrada. Si este *string* tiene más de 500 caracteres se extrae un *Substring* de este desde el inicio hasta 500 caracteres a la derecha, si no se devuelve completo
 ```c#
     private string Snippet(string text, List<string> words)
     {
@@ -213,7 +212,7 @@ private int Cercania(int docindex)
     }
 ```
 * GetScore
->   Calcula el Score del documento pasado como parametro, para ello se basa en el Calculo del Coeficiente de Similaridad del Coseno, para el calculo se usan los valores de la matrix-tfidf y el queryvector-tfidf. El numerador es un producto escalar entre los pesos del documento y la consulta; y el denominador la raíz cuadrada del producto del sumatorio de los pesos del documento y la consulta al cuadrado. La formulación del denominador con raíz cuadrada y cálculo de cuadrados, se diseñó para conseguir un resultado final de la división, inferior a 1, de tal manera que el coeficiente fuera de fácil manejo y lectura.
+>   Calcula el Score del documento pasado como parámetro, para ello se basa en el cálculo del Coeficiente de Similaridad del Coseno, para el cálculo se usan los valores de la matriz-tfidf y el queryvector-tfidf. El numerador es un producto escalar entre los pesos del documento y la consulta; y el denominador la raíz cuadrada del producto del sumatorio de los pesos del documento y la consulta al cuadrado. La formulación del denominador con raíz cuadrada y cálculo de cuadrados, se diseñó para conseguir un resultado final de la división, inferior a 1, de tal manera que el coeficiente fuera de fácil manejo y lectura.
 ```c#
 public float GetScore(int docnumber)
     {
@@ -240,7 +239,7 @@ public float GetScore(int docnumber)
     }
 ```
 * LevenshteinSimilarity
->Calcula la distancia entre dos cadenas y devuelve la similitud entre ellas. Para ello normaliza la distancia, dividiendola entre la longitud de la cadena mayor (se obtiene un valor entre 0  y 1). Valores de la distancia Normalizada cercanos a 0, corresponde a cadenas semejantes. Finalmente la similitud entre dos cadenas, puede verse como el inverso de la distancia normalizada. Cuando la distancia Normalizada es pequeña la similitud es grande, por tanto se define que: sim(c1,c2) = 1 - DNorm(c1,c2)
+>Calcula la distancia entre dos cadenas y devuelve la similitud entre ellas. Para ello normaliza la distancia, dividiéndola entre la longitud de la cadena mayor (se obtiene un valor entre 0  y 1). Valores de la distancia Normalizada cercanos a 0, corresponde a cadenas semejantes. Finalmente la similitud entre dos cadenas, puede verse como el inverso de la distancia normalizada. Cuando la distancia Normalizada es pequeña la similitud es grande, por tanto se define que: sim(c1,c2) = 1 - DNorm(c1,c2)
 
 ```c#
   private float LevenshteinSimilarity(string wordvoc, string wordquery)
@@ -279,11 +278,10 @@ public float GetScore(int docnumber)
 ```
 # ***[Document](https://github.com/Mauro-02/Moogle240722Final/blob/9ef82afdbf9aa1ae5992096a7156b3a5f2aa78ec/moogle-main/MoogleEngine/Document.cs)***
 
-Esta clase se encarga del almacenamiento de los documentos y su normalizacion, su constructor recibe como parametro de entrada: Camino y Nombre del Fichero a Procesar, lee el contenido del Fichero en una String, llama al Metodo *FillDictionarys* para llenar el Diccionario docsdictionary, le da valores a las variables wordcount, filename, filesnippet y filepath, a la variable filename, se le agrega la fecha de Modificacio del fichero y se muestra en el resultado de la busqueda.
+Esta clase se encarga del almacenamiento de los documentos y su normalización, su constructor recibe como parámetro de entrada: Camino y Nombre del Fichero a Procesar, lee el contenido del Fichero en una String, llama al Método *FillDictionarys* para llenar el Diccionario docsdictionary, le da valores a las variables wordcount, filename, filesnippet y filepath, a la variable filename, se le agrega la fecha de Modificación del fichero y se muestra en el resultado de la búsqueda.
 
 * FillDictionarys
->  Llena el Diccionario docsdictionary con las palabras del Documento, los parametro de entrada son: Diccionario de Doc a llenar, una string con todas las palabras del Documento y el Diccionario Vocabulario. Después de procesado el último Documento, se ha llenado el Vocabulario del Corpus con todas las palabras (key) y como valor la cantidad de documentos que contienen la palabra.
-
+>Llena el Diccionario docsdictionary con las palabras del Documento, los parámetro de entrada son: Diccionario de Doc a llenar, una string con todas las palabras del Documento y el Diccionario Vocabulario. Después de procesado el último Documento, se ha llenado el Vocabulario del Corpus con todas las palabras (key) y como valor la cantidad de documentos que contienen la palabra.
 ```c#
     private int FillDictionarys(
         Dictionary<string, List<int>> dictionary,
@@ -328,11 +326,11 @@ Esta clase se encarga del almacenamiento de los documentos y su normalizacion, s
    
 
 # ***[Moogle](https://github.com/Mauro-02/Moogle240722Final/blob/18014439a5de6e7cad86da7ae843756e34d4332c/moogle-main/MoogleEngine/Moogle.cs)***
- >En esta clase se inicia el constructor de la clase *Corpus* y se recibe la Query desde el servidor. Se hacen una serie de comprobaciones para asegurar que no hayan errores relacionados con los documentos o la Query. Se ejecuta el método *ProcessScore* y los resultados se ordenan descendentemente guardando solamente los 15 primeros. A continuacion se busca una sugerencia a la Query con el método *FindSuggestion*. Si la cantidad de documentos devueltos es menor a 15, se buscaran sinonimos de la Query para intentar aumentar la cantidad de documentos devueltos
+ >En esta clase se inicia el constructor de la clase *Corpus* y se recibe la Query desde el servidor. Se hacen una serie de comprobaciones para asegurar que no haya errores relacionados con los documentos o la Query. Se ejecuta el método *ProcessScore* y los resultados se ordenan descendentemente guardando solamente los 15 primeros. A continuación se busca una sugerencia a la Query con el método *FindSuggestion*. Si la cantidad de documentos devueltos es menor a 15, se buscaran sinónimos de la Query para intentar aumentar la cantidad de documentos devueltos
 
 # ***[Query](https://github.com/Mauro-02/Moogle240722Final/blob/f8492faf8c9cfdfef421e193091fd34b61a0e3ea/moogle-main/MoogleEngine/Query.cs)***
 
-En esta clase se procesa la Query, se normaliza y se hace una serie de procedimientos para la deteccion de los operadores, se hace un barrido de los elementos de la Query y los clasifica en Tokens, segun la clasificacion definida por el enum token:
+En esta clase se procesa la Query, se normaliza y se hace una serie de procedimientos para la detección de los operadores, se hace un barrido de los elementos de la Query y los clasifica en Tokens, según la clasificación definida por el enum token:
 ```c#
     private enum token
     {
@@ -347,10 +345,10 @@ En esta clase se procesa la Query, se normaliza y se hace una serie de procedimi
 ```
 >Esto permite identificar a que operador le corresponde cada palabra
 
-En el diccionario *querydictionary* se almacena informacion de las palabras de la Query, estas seran los Key y los valores, un arreglo de 4 elementos, usados de la siguiente manera:
+En el diccionario *querydictionary* se almacena información de las palabras de la Query, estas serán los Key y los valores, un arreglo de 4 elementos, usados de la siguiente manera:
 *    (0): Cantidad de veces de la palabra en la query
 *    (1): Operador Importancia, =0 no existen *, !=0 cantidad de *
-*    (2): Operador Obligacion, =0 no existe ^, !=0 existe ^
+*    (2): Operador Obligación, =0 no existe ^, !=0 existe ^
 *    (3): Operador Omitir, =0 no existe !, !=0 existe !
 
 >El operador de Importancia (*) se analiza cuando se está obteniendo el tfidf de la Query, el Tf de la palabra se multiplicará por 1.5f por cada operador (*) que tenga esa palabra
@@ -371,16 +369,16 @@ En el diccionario *querydictionary* se almacena informacion de las palabras de l
 
 # ***[Synonyms](https://github.com/Mauro-02/Moogle240722Final/blob/f8492faf8c9cfdfef421e193091fd34b61a0e3ea/moogle-main/MoogleEngine/Synonyms.cs)***
 
->Clase encargada de procesar un archivo json con una coleccion de sinonimos que son utilizados para enriquecer la busqueda en caso de que esta devuelva pocos resultados
-
+>Clase encargada de procesar un archivo json con una colección de sinónimos que son utilizados para enriquecer la búsqueda en caso de que esta devuelva pocos resultados
 # **Comentarios finales e ideas extras implementadas**
-* Codigo
+* Código
 
-Si la Query introducida es *After all this time* se dara de forma automatica como titulo del documento *Severus Snape* y como snippet *Always* haciendo una clara referencia al nombre del proyecto. Cabe resaltar que esta idea fue de mi pareja a la cual le pedi que hiciera unos logos para la parte visual del proyecto y ella asumio que Moogle era por Harry Potter, yo no habia caido en esa semejanza aún
+1. Junto a la primera búsqueda se realiza el procesado de todos los documentos, posibilitando la realización de esta operación una sola, haciendo mucho más rápidas las futuras búsquedas
+2. Si la Query introducida es *After all this time* se dará de forma automática como título del documento *Severus Snape* y como snippet *Always* haciendo una clara referencia al nombre del proyecto. Cabe resaltar que esta idea fue de mi pareja a la cual le pedí que hiciera unos logos para la parte visual del proyecto y ella asumió que Moogle era por Harry Potter, yo no había caído en esa semejanza aún
 
 * Html y Css
 
-Se modifico el apartado visual y se le agregaron varias funcionalidades:
-1. Posibilidad de realizar una busqueda sin necesidad de tocar en el boton buscar, basta con apretar enter
-2. Posibilidad de realizar una busqueda directamente presionando sobre la sugerencia de la Query
-3. Posibilidad proximamente de acceder al documento original tocando en el titulo de este
+Se modificó el apartado visual y se le agregaron varias funcionalidades:
+1. Posibilidad de realizar una búsqueda sin necesidad de tocar en el botón buscar, basta con apretar enter
+2. Posibilidad de realizar una búsqueda directamente presionando sobre la sugerencia de la Query
+3. Posibilidad próximamente de acceder al documento original tocando en el título de este
