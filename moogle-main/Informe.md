@@ -30,12 +30,12 @@ Moogle es un motor de búsqueda desarrollado con el objetivo de emparejar una qu
 
 # ***[Corpus](https://github.com/Mauro-02/Moogle240722Final/blob/5dab749c342e9c04bdcbe0244181cdd3826cec7a/moogle-main/MoogleEngine/Corpus.cs)***
 
-Aquí se desarrollan la gran mayoría de los procesos del proyecto, es la clase principal del Proyecto, manipula los atributos para los Documentos y Query. Cuando se ejecuta el constructor de la clase, esta comprueba la existencia de la carpeta Content, y la existencia de archivos .txt dentro de esta, realiza el procesado de los documentos a través de la clase Document, y llena la matriz tf-idf que contendrá la relación del peso de cada palabra en los documentos que la contienen
+Aquí se desarrollan la gran mayoría de los procesos del proyecto, es la clase principal del Proyecto, manipula los atributos para los Documentos y Query. Cuando se ejecuta el constructor de la clase, esta comprueba la existencia de la carpeta Content, y la existencia de archivos .txt dentro de esta, realiza el procesado de los documentos a través de la clase Document, y llena la matriz tf-idf que contendrá la relación del peso de cada palabra en los documentos que la contienen.
 
-Dentro de esta clase hay que destacar varios métodos, se enumeraran a continuación y se dará una breve explicación de su función
+Dentro de esta clase hay que destacar varios métodos, se enumeraran a continuación y se dará una breve explicación de su función.
 
 * ProcessQuery
->Se encarga del procesado de la query, es un método Boolean, ya que varía su ejecución si es la 1ra vez que se ejecuta(sería verdadero) o no(falso)
+>Se encarga del procesado de la query, es un método Boolean, ya que varía su ejecución si es la 1ra vez que se ejecuta(sería verdadero) o no(falso).
 ``` c#
   public void ProcessQuery(Boolean originalquery)
     {
@@ -58,7 +58,7 @@ Dentro de esta clase hay que destacar varios métodos, se enumeraran a continuac
     }
 ```
 * FillTFIDFMatrix()
->Se encarga del llenado de la matriz tfidf que relaciona los documentos con las palabras de este y su peso. El tf-idf forma parte del modelo vectorial. El Tf se calcula a través del método *GetTF*, su explicación breve sería la división del número de ocurrencias de la palabra en el documento / total palabras en el documento, si la palabra no está en el Documento, entonces tf=0f. El Idf sería el log base10(cantidad de documentos en el corpus / cantidad de documentos que contienen la palabra)
+>Se encarga del llenado de la matriz tfidf que relaciona los documentos con las palabras de este y su peso. El tf-idf forma parte del modelo vectorial. El Tf se calcula a través del método *GetTF*, su explicación breve sería la división del número de ocurrencias de la palabra en el documento / total palabras en el documento, si la palabra no está en el Documento, entonces tf=0f. El Idf sería el log base10(cantidad de documentos en el corpus / cantidad de documentos que contienen la palabra).
 ```c#
 public void FillTFIDFMatrix()
     {
@@ -168,7 +168,7 @@ private int Cercania(int docindex)
 ```
 
 * ProcessScore
->Para cada Documento, calcula su Score y si cumple las condiciones de elegibilidad( *ThereIsNotSkipWordInDocument* y *ThereIsForceWordInDocument* ) y se agrega a la lista SearchItem junto al título del documento y el Snippet
+>Para cada Documento, calcula su Score y si cumple las condiciones de elegibilidad( *ThereIsNotSkipWordInDocument* y *ThereIsForceWordInDocument* ) y se agrega a la lista SearchItem junto al título del documento y el Snippet.
 ```c#
    public List<SearchItem> ProcessScore()
     {
@@ -196,7 +196,7 @@ private int Cercania(int docindex)
 ```
     
 * Snippet
->En este punto el documento a analizar tiene una cierta relación con la Query, por lo que al menos una palabra de esta está en el documento, se recorre la Query comprobando una por una la existencia de esta en el documento, luego se extrae un *Substring* del documento a partir de la posición de la 1ra palabra encontrada. Si este *string* tiene más de 500 caracteres se extrae un *Substring* de este desde el inicio hasta 500 caracteres a la derecha, si no se devuelve completo
+>En este punto, el documento a analizar tiene una cierta relación con la Query, por lo que al menos una palabra de esta se encuentra en el documento. Se recorre la Query comprobando una por una la existencia de esta en el documento, luego se extrae un Substring del documento a partir de la posición de la 1ra palabra encontrada. Si este string tiene más de 500 caracteres se extrae un Substring de este desde el inicio hasta 500 caracteres a la derecha, si no se devuelve completo.
 ```c#
     private string Snippet(string text, List<string> words)
     {
@@ -259,7 +259,7 @@ public float GetScore(int docnumber)
 ![Documento 2](Informe/Ejemplo2.png "Documento 2")
 
 * LevenshteinSimilarity
->Calcula la distancia entre dos cadenas y devuelve la similitud entre ellas. Para ello normaliza la distancia, dividiéndola entre la longitud de la cadena mayor (se obtiene un valor entre 0  y 1). Valores de la distancia Normalizada cercanos a 0, corresponde a cadenas semejantes. Finalmente la similitud entre dos cadenas, puede verse como el inverso de la distancia normalizada. Cuando la distancia Normalizada es pequeña la similitud es grande, por tanto se define que: sim(c1,c2) = 1 - DNorm(c1,c2)
+>Calcula la distancia entre dos cadenas y devuelve la similitud entre ellas. Para ello normaliza la distancia, dividiéndola entre la longitud de la cadena mayor (se obtiene un valor entre 0  y 1). Valores de la distancia Normalizada cercanos a 0, corresponde a cadenas semejantes. Finalmente la similitud entre dos cadenas, puede verse como el inverso de la distancia normalizada. Cuando la distancia Normalizada es pequeña la similitud es grande, por tanto se define que: sim(c1,c2) = 1 - DNorm(c1,c2).
 
 ```c#
   private float LevenshteinSimilarity(string wordvoc, string wordquery)
@@ -346,7 +346,7 @@ Esta clase se encarga del almacenamiento de los documentos y su normalización, 
    
 
 # ***[Moogle](https://github.com/Mauro-02/Moogle240722Final/blob/18014439a5de6e7cad86da7ae843756e34d4332c/moogle-main/MoogleEngine/Moogle.cs)***
- >En esta clase se inicia el constructor de la clase *Corpus* y se recibe la Query desde el servidor. Se hacen una serie de comprobaciones para asegurar que no haya errores relacionados con los documentos o la Query. Se ejecuta el método *ProcessScore* y los resultados se ordenan descendentemente guardando solamente los 15 primeros. A continuación se busca una sugerencia a la Query con el método *FindSuggestion*. Si la cantidad de documentos devueltos es menor a 15, se buscaran sinónimos de la Query para intentar aumentar la cantidad de documentos devueltos
+ >En esta clase se inicia el constructor de la clase *Corpus* y se recibe la Query desde el servidor. Se hacen una serie de comprobaciones para asegurar que no haya errores relacionados con los documentos o la Query. Se ejecuta el método *ProcessScore* y los resultados se ordenan descendentemente guardando solamente los 15 primeros. A continuación se busca una sugerencia a la Query con el método *FindSuggestion*. Si la cantidad de documentos devueltos es menor a 15, se buscaran sinónimos de la Query para intentar aumentar la cantidad de documentos devueltos.
 
 # ***[Query](https://github.com/Mauro-02/Moogle240722Final/blob/f8492faf8c9cfdfef421e193091fd34b61a0e3ea/moogle-main/MoogleEngine/Query.cs)***
 
@@ -363,15 +363,15 @@ En esta clase se procesa la Query, se normaliza y se hace una serie de procedimi
         Ninguno
     };
 ```
->Esto permite identificar a que operador le corresponde cada palabra
+>Esto permite identificar a que operador le corresponde cada palabra.
 
 En el diccionario *querydictionary* se almacena información de las palabras de la Query, estas serán los Key y los valores, un arreglo de 4 elementos, usados de la siguiente manera:
-*    (0): Cantidad de veces de la palabra en la query
-*    (1): Operador Importancia, =0 no existen *, !=0 cantidad de *
-*    (2): Operador Obligación, =0 no existe ^, !=0 existe ^
-*    (3): Operador Omitir, =0 no existe !, !=0 existe !
+*    (0): Cantidad de veces de la palabra en la query.
+*    (1): Operador Importancia, =0 no existen *, !=0 cantidad de *.
+*    (2): Operador Obligación, =0 no existe ^, !=0 existe ^.
+*    (3): Operador Omitir, =0 no existe !, !=0 existe !.
 
->El operador de Importancia (*) se analiza cuando se está obteniendo el tfidf de la Query, el Tf de la palabra se multiplicará por 1.5f por cada operador (*) que tenga esa palabra
+>El operador de Importancia (*) se analiza cuando se está obteniendo el tfidf de la Query, el Tf de la palabra se multiplicará por 1.5f por cada operador (*) que tenga esa palabra.
 ```c#
  public float GetTFQuery(string word)
     {
@@ -389,16 +389,16 @@ En el diccionario *querydictionary* se almacena información de las palabras de 
 
 # ***[Synonyms](https://github.com/Mauro-02/Moogle240722Final/blob/f8492faf8c9cfdfef421e193091fd34b61a0e3ea/moogle-main/MoogleEngine/Synonyms.cs)***
 
->Clase encargada de procesar un archivo json con una colección de sinónimos que son utilizados para enriquecer la búsqueda en caso de que esta devuelva pocos resultados
+>Clase encargada de procesar un archivo json con una colección de sinónimos que son utilizados para enriquecer la búsqueda en caso de que esta devuelva pocos resultados.
 # **Comentarios finales e ideas extras implementadas**
 * Código
 
-1. Junto a la primera búsqueda se realiza el procesado de todos los documentos, posibilitando la realización de esta operación una sola, haciendo mucho más rápidas las futuras búsquedas
-2. Si la Query introducida es *After all this time* se dará de forma automática como título del documento *Severus Snape* y como snippet *Always* haciendo una clara referencia al nombre del proyecto. Cabe resaltar que esta idea fue de mi pareja a la cual le pedí que hiciera unos logos para la parte visual del proyecto y ella asumió que Moogle era por Harry Potter, yo no había caído en esa semejanza aún
+1. Junto a la primera búsqueda se realiza el procesado de todos los documentos, posibilitando la realización de esta operación una sola, haciendo mucho más rápidas las futuras búsquedas.
+2. Si la Query introducida es *After all this time* se dará de forma automática como título del documento *Severus Snape* y como snippet *Always* haciendo una clara referencia al nombre del proyecto. Cabe resaltar que esta idea fue de mi pareja a la cual le pedí que hiciera unos logos para la parte visual del proyecto y ella asumió que Moogle era por Harry Potter, yo no había caído en esa semejanza aún.
 
 * Html y Css
 
 Se modificó el apartado visual y se le agregaron varias funcionalidades:
-1. Posibilidad de realizar una búsqueda sin necesidad de tocar en el botón buscar, basta con apretar enter
-2. Posibilidad de realizar una búsqueda directamente presionando sobre la sugerencia de la Query
-3. Posibilidad próximamente de acceder al documento original tocando en el título de este
+1. Posibilidad de realizar una búsqueda sin necesidad de tocar en el botón buscar, basta con apretar enter.
+2. Posibilidad de realizar una búsqueda directamente presionando sobre la sugerencia de la Query.
+3. Posibilidad próximamente de acceder al documento original tocando en el título de este.
