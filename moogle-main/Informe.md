@@ -244,7 +244,7 @@ public float GetScore(int docnumber)
         return similaridadcoseno;
     }
 ```
->Siguiendo los datos de la matriz mostrada más arriba (*Ángulo_Cos*) podemos calcular la *similaridelcoseno* como se muestra a continuacion:
+>Siguiendo los datos de la matriz mostrada más arriba (*Matriz_Tf-Idf*) podemos calcular la *similaridelcoseno* como se muestra a continuacion:
 
 ![Formula](Informe/Formula.png "Formula")
 
