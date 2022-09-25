@@ -28,10 +28,10 @@
     <li>
         <div class="item">
   <div class="item-details">
-  <a class="ftitle" href=@item.Link>@item.Title</a>
+  <p class="title"> <p style="color: #4169e1;"></p> <a href="#" @onclick="@(e => OpenDocument(item.Title))">@item.Title</a></p>
      <p>...@item.Snippet...</p>
   </div>
-  <button class="item-button"><a href=@item.Link>Abrir Documento</a></button>
+  <button class="item-button"> Abrir Documentos </button>
   
 </div>
         @* <div class="item">
@@ -54,5 +54,16 @@
         query = @result.Suggestion;
         RunQuery();
     }
-   
+   private void OpenDocument(string fileTitle)
+   {
+try{
+
+}
+catch
+{
+    System.Console.WriteLine("Couldn't open file...");
+
+}
+
+   }
 }
