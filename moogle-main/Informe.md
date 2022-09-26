@@ -168,7 +168,7 @@ private int Cercania(int docindex)
 ```
 
 * ProcessScore
->Para cada Documento, calcula su Score y si cumple las condiciones de elegibilidad( *ThereIsNotSkipWordInDocument* y *ThereIsForceWordInDocument* ) y se agrega a la lista SearchItem junto al título del documento y el Snippet.
+>Para cada Documento, calcula su Score y si cumple las condiciones de elegibilidad( *ThereIsNotSkipWordInDocument* y *ThereIsForceWordInDocument* ) y se agrega a la lista SearchItem junto al título del documento, el Snippet y la última fecha de edición.
 ```c#
    public List<SearchItem> ProcessScore()
     {
@@ -186,7 +186,7 @@ private int Cercania(int docindex)
                 
                     docs[i].Score = score;
                     Docs[i].Filesnippet = Snippet(Docs[i].Text, query.Palabras);
-                    sitem.Add(new SearchItem(Docs[i].Filename, Docs[i].Filesnippet, docs[i].Score));
+                    sitem.Add(new SearchItem(Docs[i].Filename, Docs[i].Filesnippet, docs[i].Score, docs[i].Dt));
                 
             }
         }
@@ -394,12 +394,12 @@ En el diccionario *querydictionary* se almacena información de las palabras de 
 # **Comentarios finales e ideas extras implementadas**
 * Código
 
-1. Junto a la primera búsqueda se realiza el procesado de todos los documentos, posibilitando la realización de esta operación una sola, haciendo mucho más rápidas las futuras búsquedas.
-2. Si la Query introducida es *After all this time* se dará de forma automática como título del documento *Severus Snape* y como snippet *Always* haciendo una clara referencia al nombre del proyecto. Cabe resaltar que esta idea fue de mi pareja a la cual le pedí que hiciera unos logos para la parte visual del proyecto y ella asumió que Moogle era por Harry Potter, yo no había caído en esa semejanza aún.
+1. Junto a la primera búsqueda se realiza el procesado de todos los documentos, posibilitando la realización de esta operación una sola vez, haciendo mucho más rápidas las futuras búsquedas.
+2. Si la Query introducida es *After all this time* se dará de forma automática como título del documento *Severus Snape*, como snippet *Always* y como fecha la de estreno de la pélicula *Harry Potter and the Deathly Hallows - Part 2* haciendo una clara referencia al nombre del proyecto. Cabe resaltar que esta idea fue de mi pareja a la cual le pedí que hiciera unos logos para la parte visual del proyecto y ella asumió que Moogle era por Harry Potter, yo no había caído en esa semejanza aún.
 
 * Html y Css
 
 Se modificó el apartado visual y se le agregaron varias funcionalidades:
 1. Posibilidad de realizar una búsqueda sin necesidad de tocar en el botón buscar, basta con apretar enter.
 2. Posibilidad de realizar una búsqueda directamente presionando sobre la sugerencia de la Query.
-3. Posibilidad próximamente de acceder al documento original tocando en el título de este.
+3. Posibilidad de leer el documento completo presionando sobre un botón dedicado a esto.

@@ -18,7 +18,7 @@ public class Document
     private string filename;
     private string filepath;
     private string filesnippet;
-
+private string dt;
     private string text;
 
     private float score = 0f;
@@ -36,7 +36,7 @@ public class Document
     ///</summary>
     public Document(string pathfilename, Dictionary<string, int> v)
     {
-        DateTime dt = File.GetLastWriteTime(pathfilename);
+     dt = (File.GetLastWriteTime(pathfilename).ToString("dd/MM/yyyy"));
 
         StreamReader read = new StreamReader(pathfilename);
         string linestext;
@@ -141,5 +141,9 @@ public class Document
     public int Wordcount
     {
         get { return wordcount; }
+    }
+    public string Dt
+    {
+        get { return dt; }
     }
 }

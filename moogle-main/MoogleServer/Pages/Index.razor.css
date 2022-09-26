@@ -133,7 +133,12 @@ p{
     color: rgb(134, 134, 134);
    }
    
-   
+   .item .dt {
+    color: #6e6b80;
+    font-size: 0.8rem;
+    text-align: right;
+  }
+
    .text-title {
     font-size: 1.5em;
     font-weight: bold;

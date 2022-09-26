@@ -31,14 +31,13 @@
         <div class="item">
   <div class="item-details">
   <a class="title">@item.Title</a>
+   <div class="dt">
+        @item.Dt
+    </div>
    <p>...@item.Snippet...</p>
   </div>
-  @* <button class="item-button" role="link" href=@item.Title> Abrir Documentos </button> *@
   <a class="item-button" href=@item.Title > Abrir Documento </a>
   
-   @* <form method="POST" action=@item.Title>
-    <button class="item-button" type="submit" href=@item.Title> Abrir Documentos</button>
-  </form> *@
 </div>
         @* <div class="item">
             <p class="title"><a href="?" @onclick="@(e=> OpenDocument(item.Title))">@item.Title</a></p>
