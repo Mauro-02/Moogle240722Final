@@ -329,8 +329,16 @@ public class Corpus
     }
 
    static public string read(string path){ 
+    try{
         string content = File.ReadAllText(path);
         return content;
+        }
+        catch
+        {
+         var error= "Error al leer el archivo";
+         return error;
+        }
+
     }
     ///<summary>
     ///Para cada Documento, calcula su Score y si cumple las condiciones de eligibilidad, se agrega a la lista SearchItem.
@@ -354,7 +362,7 @@ public class Corpus
                 
                     docs[i].Score = score;
                     Docs[i].Filesnippet = Snippet(Docs[i].Text, query.Palabras);
-                    sitem.Add(new SearchItem(Docs[i].Filename, Docs[i].Filesnippet, docs[i].Score));
+                    sitem.Add(new SearchItem(Docs[i].Filename, Docs[i].Filesnippet, docs[i].Score, docs[i].Dt));
                     
                 
             }
