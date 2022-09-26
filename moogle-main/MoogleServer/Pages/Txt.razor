@@ -1,0 +1,17 @@
+@page "/{name}"
+
+<PageTitle>Moogle!</PageTitle>
+
+<h1 class="title2">Moogle!</h1>
+
+
+<div class="item2">
+    <div class="item2-details">
+    <h2 class="name">@name</h2>
+    <p class="text">@Corpus.read($"../Content/{name}")</p>
+</div>
+</div>
+@code {
+    [Parameter]
+    public string? name { get; set; }
+}   

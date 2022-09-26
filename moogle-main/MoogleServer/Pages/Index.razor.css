@@ -3,7 +3,7 @@
 }
 
 .item .title {
-    font-size: large;
+    font-size: x-large;
     font-weight: bold;
 }
 
@@ -12,6 +12,12 @@ body{
     background-image:url(../913983.png);
     background-size: cover;
     background-repeat: no-repeat;
+    
+}
+p{
+    color: black;
+    font-size: 20px;
+    font-family: 'Times New Roman', Times, serif;
 }
 .input {
     width: 80%;
@@ -52,8 +58,8 @@ body{
    button {
     
     position: relative;
-    top: -3.1rem;
-    left: 58rem;
+    top: -3.2rem;
+    left: 45%;
     color: #090909;
     padding: 0.7em 1.7em;
     font-size: 18   px;
@@ -76,13 +82,13 @@ body{
 
 
 .item {
-    width: 1980px;
-    height: 150px;
+    width: auto;
+    height: auto;
     border-radius: 20px;
     background: #f5f5f5;
     position: relative;
     padding: 1.8rem;
-    border: 2px solid #c3c6ce;
+    border: 8px solid #c3c6ce;
     transition: 0.5s ease-out;
     overflow: visible;
    }
@@ -92,7 +98,7 @@ body{
     height: 100%;
     gap: .5em;
     display: grid;
-    place-content: center;
+    place-content: initial;
    }
    
    .item-button {
@@ -105,12 +111,24 @@ body{
     font-size: 1rem;
     padding: .5rem 1rem;
     position: relative;
-    left: 50%;
+    left: 46%;
     bottom: 0;
     opacity: 0;
-    transition: 0.3s ease-out;
+    transition: 0.7s ease-out;
+    
+    
    }
-   
+ 
+   .item.title{
+    font-size: x-large;
+    font-weight: normal;
+    
+   }
+   a{
+    color: #0000CD;
+    text-decoration: none;
+    text-align: center;
+   }
    .text-body {
     color: rgb(134, 134, 134);
    }
@@ -131,3 +149,5 @@ body{
     transform: translate(-50%, 50%);
     opacity: 1;
    }
+
+   

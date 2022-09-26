@@ -62,7 +62,11 @@ public class Corpus
 
         ProcessDocs();
         System.Console.WriteLine("Documentos listos ✅");
+        Stopwatch crono=new Stopwatch();
+        crono.Start();
         FillTFIDFMatrix();
+        crono.Stop();
+        System.Console.WriteLine(crono.ElapsedMilliseconds);
         System.Console.WriteLine("Matriz TFIDF lista ✅");
         System.Console.WriteLine("Corpus listo ✅");
     }
@@ -324,9 +328,15 @@ public class Corpus
         return dm;
     }
 
+   static public string read(string path){ 
+        string content = File.ReadAllText(path);
+        return content;
+    }
     ///<summary>
     ///Para cada Documento, calcula su Score y si cumple las condiciones de eligibilidad, se agrega a la lista SearchItem.
     ///</summary>
+
+  
 
     public List<SearchItem> ProcessScore()
     {
@@ -344,7 +354,7 @@ public class Corpus
                 
                     docs[i].Score = score;
                     Docs[i].Filesnippet = Snippet(Docs[i].Text, query.Palabras);
-                    sitem.Add(new SearchItem(Docs[i].Filename, Docs[i].Filesnippet, docs[i].Score, docs[i].Filepath + docs[i].Filename));
+                    sitem.Add(new SearchItem(Docs[i].Filename, Docs[i].Filesnippet, docs[i].Score));
                     
                 
             }
@@ -357,6 +367,7 @@ public class Corpus
     {
         string result = "";
         string word = " ";
+        if(text.Length<500) return result=text;
         for (int i = 0; i < words.Count; i++)
         {
             if (text.Contains(" " + words[i] + " "))
