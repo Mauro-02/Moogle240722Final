@@ -196,12 +196,13 @@ private int Cercania(int docindex)
 ```
     
 * Snippet
->En este punto, el documento a analizar tiene una cierta relación con la Query, por lo que al menos una palabra de esta se encuentra en el documento. Se recorre la Query comprobando una por una la existencia de esta en el documento, luego se extrae un Substring del documento a partir de la posición de la 1ra palabra encontrada. Si este string tiene más de 500 caracteres se extrae un Substring de este desde el inicio hasta 500 caracteres a la derecha, si no se devuelve completo.
+>En este punto, el documento a analizar tiene una cierta relación con la Query, por lo que al menos una palabra de esta se encuentra en el documento. Lo primero que comprueba es el tamaño del documento, si posee menos de 500 caracteres se devuelve el mismo documento sin recortarlo Se recorre la Query comprobando una por una la existencia de esta en el documento, luego se extrae un Substring del documento a partir de la posición de la 1ra palabra encontrada. Si este string tiene más de 500 caracteres se extrae un Substring de este desde el inicio hasta 500 caracteres a la derecha, si no se devuelve completo.
 ```c#
     private string Snippet(string text, List<string> words)
     {
         string result = "";
         string word = " ";
+        if(text.Length<500) return result=text;
         for (int i = 0; i < words.Count; i++)
         {
             if (text.Contains(" " + words[i] + " "))
