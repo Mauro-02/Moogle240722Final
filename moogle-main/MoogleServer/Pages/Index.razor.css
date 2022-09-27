@@ -114,7 +114,7 @@ p{
     left: 46%;
     bottom: 0;
     opacity: 0;
-    transition: 0.7s ease-out;
+    transition: 1.5s ease-out;
     
     
    }
@@ -147,6 +147,7 @@ p{
    
    .item:hover {
     border-color: #008bf8;
+    transform: scale(1.02);
     box-shadow: 0 4px 18px 0 rgba(0, 0, 0, 0.25);
    }
    
