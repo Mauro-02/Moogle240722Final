@@ -34,7 +34,30 @@ public static class Moogle
                 var sortlist = mycorpus.ProcessScore().OrderByDescending(x => x.Score).Take(TDocument);
                 string suggestion = mycorpus.FindSuggestion();
                 if (sortlist.Count() <TDocument) // No se encontraron resultados de la query original, se intenta buscar resultados de Sugerencias
-                {
+                {   
+                 foreach (var item in mycorpus.Querydictionary.Keys) // Recorre el Dicc de Query buscando las palabras con !
+        {
+            if ((mycorpus.Querydictionary[item][3] != 0)||(mycorpus.Querydictionary[item][2] != 0)) 
+            {
+                if(sortlist.Count()==0)
+            {
+                       
+                       SearchItem[] items = new SearchItem[1]
+                    {
+                        new SearchItem("Ninguna Coincidencia", "", 0,   "")
+                    };
+                    mycorpus.Error = 0;
+                    return new SearchResult(items, suggestion); 
+                
+            }
+            else
+            {          
+                  return new SearchResult(sortlist.ToArray(), suggestion);
+            } 
+           
+        }
+        }
+              
                     int count = sortlist.Count();
                     string sug=mycorpus.FindSuggestionSynonyms();
                     mycorpus.Search(sug,false);

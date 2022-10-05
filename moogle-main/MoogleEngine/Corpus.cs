@@ -19,6 +19,8 @@ public class Corpus
 
     private int error = 0;
 
+    private Dictionary<string, int[]> querydictionary= new Dictionary<string, int[]>();
+
     private Query query; // para crear un Objeto Query
 
     private Synonymous syn; // para crear un Objeto Synonymous
@@ -94,6 +96,7 @@ public class Corpus
         if (originalquery)
         {
             query = new Query(this.inputquery); // Procesa Query Original
+            this.querydictionary=query.Querydictionary;
             if (query.Error != 0) // se encontró un error en el procesamienro de la query
             {
                 error = query.Error;
@@ -375,7 +378,7 @@ public class Corpus
     {
         string result = "";
         string word = " ";
-        if(text.Length<500) return result=text;
+        if(text.Length<500) return result=DestacarPalabra(text,words);
         for (int i = 0; i < words.Count; i++)
         {
             if (text.Contains(" " + words[i] + " "))
@@ -386,7 +389,28 @@ public class Corpus
         }
         result = text.Substring(text.IndexOf(word));
         result = result.Length >= 500 ? result.Substring(0, 500) : result.Substring(0, result.Length);
-        return result;
+        return DestacarPalabra(result,words);
+    }
+
+    private string DestacarPalabra(string text, List<string> words)
+    {
+        string snippet="";
+        List<string> texttolist=text.Split(' ').ToList();
+        for(int i = 0;i< words.Count; i++)
+        {
+            for (int j=0;j<texttolist.Count;j++)
+            {
+                if(texttolist[j]==words[i])
+                {
+texttolist[j]="<mark>"+texttolist[j]+"</mark>";
+                }
+            }
+        }
+    for (int k=0;k<texttolist.Count;k++)
+    {
+snippet+=texttolist[k]+" ";
+    }
+    return snippet;
     }
 
     ///<summary>
@@ -581,4 +605,8 @@ public class Corpus
         get { return error; }
         set { error = value; }
     }
+  public Dictionary<string, int[]> Querydictionary
+  {
+    get { return querydictionary;}
+  }
 }

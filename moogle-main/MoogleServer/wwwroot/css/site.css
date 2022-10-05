@@ -39,6 +39,14 @@ h2.name{
         text-decoration: none;
         text-align: center;   
 }
+.mark,mark{
+    background-color: #f5f5f5;
+    color: #0000CD;
+    /* text-decoration: underline; */
+    font-size: x-large;
+    font-style: italic;
+    font-family:Verdana, Geneva, Tahoma, sans-serif
+}
 .btn-primary {
     color: #fff;
     background-color: #1b6ec2;

@@ -34,9 +34,9 @@
    <div class="dt">
         @item.Dt
     </div>
-   <p>...@item.Snippet...</p>
+   <p>...@((MarkupString)item.Snippet)...</p>
   </div>
-  <a class="item-button" href=@item.Title > Abrir Documento </a>
+  <a class="item-button" href=@item.Title  > Abrir Documento </a>
   
 </div>
         @* <div class="item">
