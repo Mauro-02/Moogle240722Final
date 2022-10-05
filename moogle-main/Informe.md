@@ -395,7 +395,7 @@ En el diccionario *querydictionary* se almacena información de las palabras de 
 * Código
 
 1. Junto a la primera búsqueda se realiza el procesado de todos los documentos, posibilitando la realización de esta operación una sola vez, haciendo mucho más rápidas las futuras búsquedas.
-2. Si la Query introducida es *After all this time* se dará de forma automática como título del documento *Severus Snape*, como snippet *Always* y como fecha la de estreno de la pélicula *Harry Potter and the Deathly Hallows - Part 2* haciendo una clara referencia al nombre del proyecto. Cabe resaltar que esta idea fue de mi pareja a la cual le pedí que hiciera unos logos para la parte visual del proyecto y ella asumió que Moogle era por Harry Potter, yo no había caído en esa semejanza aún.
+2. Si la Query introducida es *After all this time* se dará de forma automática como título del documento *Severus Snape*, como snippet *Always* y como fecha la de estreno de la película *Harry Potter and the Deathly Hallows - Part 2* haciendo una clara referencia al nombre del proyecto. Cabe resaltar que esta idea fue de mi pareja a la cual le pedí que hiciera unos logos para la parte visual del proyecto y ella asumió que Moogle era por Harry Potter, yo no había caído en esa semejanza aún.
 
 * Html y Css
 
@@ -403,3 +403,4 @@ Se modificó el apartado visual y se le agregaron varias funcionalidades:
 1. Posibilidad de realizar una búsqueda sin necesidad de tocar en el botón buscar, basta con apretar enter.
 2. Posibilidad de realizar una búsqueda directamente presionando sobre la sugerencia de la Query.
 3. Posibilidad de leer el documento completo presionando sobre un botón dedicado a esto.
+4. En el snippet del documento se resaltarán las palabras de la Query que se encuentren en este
